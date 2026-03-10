@@ -2,7 +2,13 @@ import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Menu from "./pages/Menu";
+import ProductDetail from "./pages/ProductDetail";
+import Register from "./pages/Register";
 
 function App() {
     return (
@@ -18,7 +24,15 @@ function App() {
                 <Box component="main" sx={{ flex: 1 }}>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        {/* thêm các trang Giỏ hàng (Cart), Checkout,... */}
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/menu" element={<Menu />} />
+                        <Route
+                            path="/product/:id"
+                            element={<ProductDetail />}
+                        />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/checkout" element={<Checkout />} />
                     </Routes>
                 </Box>
                 <Footer />
