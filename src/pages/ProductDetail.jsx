@@ -2,14 +2,18 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
+import HomeIcon from "@mui/icons-material/Home";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import StarIcon from "@mui/icons-material/Star";
 import {
     Box,
+    Breadcrumbs,
     Button,
     Card,
     Chip,
     Grid,
+    Link,
     Stack,
     Typography,
 } from "@mui/material";
@@ -213,15 +217,37 @@ function ProductDetail() {
             bgcolor="background.default"
             sx={{ py: { xs: 4, md: 6 } }}
         >
-            {/* Breadcrumb */}
-            <Button
-                startIcon={<ArrowBackIcon />}
-                component={RouterLink}
-                to="/menu"
-                sx={{ mb: 3, color: "text.secondary" }}
+            {/* Breadcrumbs */}
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                sx={{ mb: 3 }}
             >
-                Quay lại thực đơn
-            </Button>
+                <Link
+                    component={RouterLink}
+                    to="/"
+                    underline="hover"
+                    color="text.secondary"
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.5,
+                    }}
+                >
+                    <HomeIcon fontSize="small" />
+                    Trang chủ
+                </Link>
+                <Link
+                    component={RouterLink}
+                    to="/menu"
+                    underline="hover"
+                    color="text.secondary"
+                >
+                    Thực đơn
+                </Link>
+                <Typography color="text.primary" fontWeight={600}>
+                    {meal.name}
+                </Typography>
+            </Breadcrumbs>
 
             <Grid container spacing={4}>
                 {/* Image */}
