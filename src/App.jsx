@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import CartSnackbar from "./components/common/CartSnackbar";
+import MobileSpeedDial from "./components/common/MobileSpeedDial";
 import PageTransition from "./components/common/PageTransition";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
@@ -44,6 +46,8 @@ function App() {
                     <AppRoutes />
                 </Box>
                 <Footer />
+                <CartSnackbar />
+                <MobileSpeedDial />
             </Box>
         </BrowserRouter>
     );
