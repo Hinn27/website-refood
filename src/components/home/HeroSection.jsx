@@ -2,6 +2,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
+import AnimatedSection from "../common/AnimatedSection";
 import SectionLayout from "../layout/SectionLayout";
 
 function HeroSection() {
@@ -52,7 +53,9 @@ function HeroSection() {
                 alignItems="center"
             >
                 {/* Text content */}
-                <Box
+                <AnimatedSection
+                    variant="fadeRight"
+                    duration={0.8}
                     sx={{
                         flex: 1,
                         textAlign: { xs: "center", md: "left" },
@@ -149,10 +152,13 @@ function HeroSection() {
                             Tham Gia Thiện Nguyện
                         </Button>
                     </Stack>
-                </Box>
+                </AnimatedSection>
 
                 {/* Hero visual */}
-                <Box
+                <AnimatedSection
+                    variant="fadeLeft"
+                    delay={0.3}
+                    duration={0.8}
                     sx={{
                         flex: 1,
                         display: "flex",
@@ -218,7 +224,7 @@ function HeroSection() {
                     >
                         🌙 Phục vụ 24/7
                     </Box>
-                </Box>
+                </AnimatedSection>
             </Stack>
         </SectionLayout>
     );
