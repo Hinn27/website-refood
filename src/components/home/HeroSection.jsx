@@ -1,5 +1,5 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import AnimatedSection from "../common/AnimatedSection";
@@ -122,8 +122,8 @@ function HeroSection() {
                         <Button
                             variant="contained"
                             size="large"
-                            startIcon={<NightsStayIcon />}
-                            href="#night-meal"
+                            startIcon={<StorefrontIcon />}
+                            href="#quan-an-0d"
                             sx={{
                                 background:
                                     "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
@@ -133,7 +133,7 @@ function HeroSection() {
                                 },
                             }}
                         >
-                            Đặt Suất Ăn Đêm
+                            Quán Ăn 0đ
                         </Button>
                         <Button
                             variant="contained"

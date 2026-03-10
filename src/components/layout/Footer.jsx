@@ -94,8 +94,8 @@ function Footer() {
                         <Stack spacing={1}>
                             {[
                                 {
-                                    label: "Đặt suất ăn đêm",
-                                    href: "#night-meal",
+                                    label: "Quán ăn 0đ",
+                                    href: "#quan-an-0d",
                                 },
                                 {
                                     label: "Bản đồ quán ăn 0 đồng",

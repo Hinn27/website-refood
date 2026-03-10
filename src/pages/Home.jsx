@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import HeroSection from "../components/home/HeroSection";
 import MenuSection from "../components/home/MenuSection";
-import NightMealSection from "../components/home/NightMealSection";
+import QuanAn0dSection from "../components/home/QuanAn0dSection";
 import VolunteerSection from "../components/home/VolunteerSection";
 import ZeroDongMapSection from "../components/home/ZeroDongMapSection";
 
@@ -11,8 +11,8 @@ function Home() {
             {/* Hero Banner — Giới thiệu sứ mệnh ReFoodVN */}
             <HeroSection />
 
-            {/* Phân mục 1: Đặt suất ăn đêm cho người lao động */}
-            <NightMealSection />
+            {/* Phân mục 1: Quán ăn 0đ cho người lao động */}
+            <QuanAn0dSection />
 
             {/* Phân mục 2: Thực đơn đầy đủ — lọc theo danh mục */}
             <MenuSection />

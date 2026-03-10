@@ -25,8 +25,8 @@ const volunteerBenefits = [
     },
     {
         icon: <DeliveryDiningIcon sx={{ fontSize: 40 }} />,
-        title: "Giao suất ăn đêm",
-        desc: "Tham gia đội giao hàng đêm, mang bữa ăn ấm lòng cho người lao động ca đêm",
+        title: "Phục vụ quán ăn 0đ",
+        desc: "Tham gia phục vụ tại quán ăn 0đ, mang bữa ăn ấm lòng cho người lao động khó khăn",
     },
     {
         icon: <GroupsIcon sx={{ fontSize: 40 }} />,
@@ -147,7 +147,7 @@ function VolunteerSection() {
                                             Giao cơm cho người già neo đơn
                                         </MenuItem>
                                         <MenuItem value="night">
-                                            Giao suất ăn đêm cho lao động
+                                            Phục vụ quán ăn 0đ
                                         </MenuItem>
                                         <MenuItem value="kitchen">
                                             Hỗ trợ quán ăn 0 đồng

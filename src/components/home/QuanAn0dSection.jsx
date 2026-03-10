@@ -1,18 +1,18 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import {
     Box,
     Button,
     Card,
     CardActionArea,
     CardContent,
-    CardMedia,
     Chip,
     Grid,
     IconButton,
     Stack,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { useInView } from "framer-motion";
@@ -24,9 +24,10 @@ import AnimatedSection, {
     staggerContainer,
     staggerItem,
 } from "../common/AnimatedSection";
+import CardMediaSkeleton from "../common/CardMediaSkeleton";
 import SectionLayout from "../layout/SectionLayout";
 
-const nightMeals = [
+const quanAn0dMeals = [
     {
         _id: "1",
         name: "Phở Bò Gia Truyền",
@@ -83,7 +84,7 @@ const nightMeals = [
     },
 ];
 
-function NightMealSection() {
+function QuanAn0dSection() {
     const { addItem } = useCart();
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
@@ -98,7 +99,7 @@ function NightMealSection() {
     };
 
     return (
-        <SectionLayout id="night-meal" bgcolor="background.default">
+        <SectionLayout id="quan-an-0d" bgcolor="background.default">
             {/* Header */}
             <AnimatedSection variant="fadeUp">
                 <Stack
@@ -121,9 +122,9 @@ function NightMealSection() {
                                 },
                             }}
                         >
-                            <NightsStayIcon color="primary" fontSize="large" />
+                            <StorefrontIcon color="primary" fontSize="large" />
                             <Typography variant="h3" fontWeight={700}>
-                                Suất Ăn Đêm
+                                Quán Ăn 0đ
                             </Typography>
                         </Stack>
                         <Typography
@@ -131,8 +132,8 @@ function NightMealSection() {
                             color="text.secondary"
                             sx={{ maxWidth: 480 }}
                         >
-                            Dành cho các cô chú lao động ca đêm — Đặt nhanh,
-                            giao tận nơi, giá phải chăng
+                            Bữa ăn miễn phí cho người lao động khó khăn — Đặt
+                            nhanh, giao tận nơi, hoàn toàn miễn phí
                         </Typography>
                     </Box>
                     <Button
@@ -155,7 +156,7 @@ function NightMealSection() {
                 animate={isGridInView ? "visible" : "hidden"}
             >
                 <Grid container spacing={3}>
-                    {nightMeals.map((meal) => (
+                    {quanAn0dMeals.map((meal) => (
                         <Grid size={{ xs: 12, sm: 6, md: 4 }} key={meal._id}>
                             <MotionBox variants={staggerItem}>
                                 <Card
@@ -189,12 +190,15 @@ function NightMealSection() {
                                         component={RouterLink}
                                         to={`/product/${meal._id}`}
                                     >
-                                        <CardMedia
+                                        <CardMediaSkeleton
                                             component="img"
-                                            height="200"
                                             image={meal.image}
                                             alt={meal.name}
-                                            sx={{ objectFit: "cover" }}
+                                            sx={{
+                                                aspectRatio: "16/10",
+                                                objectFit: "cover",
+                                                width: "100%",
+                                            }}
                                         />
                                     </CardActionArea>
                                     <CardContent sx={{ flexGrow: 1, pb: 1 }}>
@@ -247,23 +251,26 @@ function NightMealSection() {
                                                     </Typography>
                                                 </Stack>
                                             </Box>
-                                            <IconButton
-                                                color="primary"
-                                                onClick={() =>
-                                                    handleAddToCart(meal)
-                                                }
-                                                sx={{
-                                                    bgcolor: "primary.main",
-                                                    color: "#fff",
-                                                    width: 48,
-                                                    height: 48,
-                                                    "&:hover": {
-                                                        bgcolor: "primary.dark",
-                                                    },
-                                                }}
-                                            >
-                                                <AddShoppingCartIcon />
-                                            </IconButton>
+                                            <Tooltip title="Thêm vào giỏ hàng">
+                                                <IconButton
+                                                    color="primary"
+                                                    onClick={() =>
+                                                        handleAddToCart(meal)
+                                                    }
+                                                    sx={{
+                                                        bgcolor: "primary.main",
+                                                        color: "#fff",
+                                                        width: 48,
+                                                        height: 48,
+                                                        "&:hover": {
+                                                            bgcolor:
+                                                                "primary.dark",
+                                                        },
+                                                    }}
+                                                >
+                                                    <AddShoppingCartIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </Stack>
                                     </CardContent>
                                 </Card>
@@ -276,4 +283,4 @@ function NightMealSection() {
     );
 }
 
-export default NightMealSection;
+export default QuanAn0dSection;
