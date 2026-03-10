@@ -50,7 +50,6 @@ const navLinks = [
         isRoute: true,
     },
     { label: "Quán Ăn 0đ", href: "/#quan-an-0d", icon: <StorefrontIcon /> },
-    { label: "Quán Ăn 0 Đồng", href: "/#zero-dong", icon: <StorefrontIcon /> },
     {
         label: "Thiện Nguyện",
         href: "/#volunteer",

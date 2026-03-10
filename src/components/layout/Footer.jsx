@@ -98,10 +98,6 @@ function Footer() {
                                     href: "#quan-an-0d",
                                 },
                                 {
-                                    label: "Bản đồ quán ăn 0 đồng",
-                                    href: "#zero-dong",
-                                },
-                                {
                                     label: "Đăng ký thiện nguyện",
                                     href: "#volunteer",
                                 },
