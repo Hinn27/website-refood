@@ -96,10 +96,17 @@ function Navbar() {
                     <Toolbar disableGutters sx={{ py: 0.5 }}>
                         {/* Logo */}
                         <Stack
+                            component={RouterLink}
+                            to="/"
                             direction="row"
                             spacing={1}
                             alignItems="center"
-                            sx={{ flexGrow: { xs: 1, md: 0 }, mr: { md: 4 } }}
+                            sx={{
+                                flexGrow: { xs: 1, md: 0 },
+                                mr: { md: 4 },
+                                textDecoration: "none",
+                                cursor: "pointer",
+                            }}
                         >
                             <RestaurantIcon
                                 sx={{
