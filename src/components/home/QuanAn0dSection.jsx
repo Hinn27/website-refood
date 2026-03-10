@@ -255,13 +255,21 @@ function QuanAn0dSection() {
                                             variant="h6"
                                             fontWeight={700}
                                             gutterBottom
+                                            noWrap
                                         >
                                             {meal.name}
                                         </Typography>
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"
-                                            sx={{ mb: 2 }}
+                                            sx={{
+                                                mb: 2,
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 2,
+                                                WebkitBoxOrient: "vertical",
+                                                overflow: "hidden",
+                                                minHeight: "2.5em",
+                                            }}
                                         >
                                             {meal.desc}
                                         </Typography>
