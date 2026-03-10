@@ -7,7 +7,6 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import {
     Box,
-    Container,
     Divider,
     Grid,
     IconButton,
@@ -15,6 +14,7 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import { LAYOUT_MAX_WIDTH, RESPONSIVE_PX } from "./SectionLayout";
 
 function Footer() {
     return (
@@ -28,7 +28,14 @@ function Footer() {
                 pb: 3,
             }}
         >
-            <Container maxWidth="lg">
+            <Box
+                sx={{
+                    maxWidth: LAYOUT_MAX_WIDTH.default,
+                    mx: "auto",
+                    px: RESPONSIVE_PX,
+                    width: "100%",
+                }}
+            >
                 <Grid container spacing={4}>
                     {/* Brand */}
                     <Grid size={{ xs: 12, md: 4 }}>
@@ -207,7 +214,7 @@ function Footer() {
                         by ReFood Corp
                     </Typography>
                 </Stack>
-            </Container>
+            </Box>
         </Box>
     );
 }

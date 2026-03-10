@@ -9,12 +9,12 @@ import {
     Button,
     Card,
     Chip,
-    Container,
     Grid,
     Stack,
     Typography,
 } from "@mui/material";
 import { Link as RouterLink, useParams } from "react-router-dom";
+import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
 
 // Reuse the same mock data — sẽ chuyển thành shared data/API sau
@@ -173,7 +173,8 @@ function ProductDetail() {
 
     if (!meal) {
         return (
-            <Box
+            <SectionLayout
+                variant="narrow"
                 sx={{
                     minHeight: "60vh",
                     display: "flex",
@@ -181,22 +182,20 @@ function ProductDetail() {
                     py: 8,
                 }}
             >
-                <Container maxWidth="sm">
-                    <Stack alignItems="center" spacing={3}>
-                        <Typography variant="h4" fontWeight={700}>
-                            Không tìm thấy món ăn
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            component={RouterLink}
-                            to="/menu"
-                            startIcon={<ArrowBackIcon />}
-                        >
-                            Quay lại thực đơn
-                        </Button>
-                    </Stack>
-                </Container>
-            </Box>
+                <Stack alignItems="center" spacing={3}>
+                    <Typography variant="h4" fontWeight={700}>
+                        Không tìm thấy món ăn
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        component={RouterLink}
+                        to="/menu"
+                        startIcon={<ArrowBackIcon />}
+                    >
+                        Quay lại thực đơn
+                    </Button>
+                </Stack>
+            </SectionLayout>
         );
     }
 
@@ -210,201 +209,195 @@ function ProductDetail() {
     };
 
     return (
-        <Box sx={{ py: { xs: 4, md: 6 }, bgcolor: "background.default" }}>
-            <Container maxWidth="lg">
-                {/* Breadcrumb */}
-                <Button
-                    startIcon={<ArrowBackIcon />}
-                    component={RouterLink}
-                    to="/menu"
-                    sx={{ mb: 3, color: "text.secondary" }}
-                >
-                    Quay lại thực đơn
-                </Button>
+        <SectionLayout
+            bgcolor="background.default"
+            sx={{ py: { xs: 4, md: 6 } }}
+        >
+            {/* Breadcrumb */}
+            <Button
+                startIcon={<ArrowBackIcon />}
+                component={RouterLink}
+                to="/menu"
+                sx={{ mb: 3, color: "text.secondary" }}
+            >
+                Quay lại thực đơn
+            </Button>
 
-                <Grid container spacing={4}>
-                    {/* Image */}
-                    <Grid size={{ xs: 12, md: 6 }}>
+            <Grid container spacing={4}>
+                {/* Image */}
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <Box
+                        sx={{
+                            borderRadius: 4,
+                            overflow: "hidden",
+                            position: "relative",
+                        }}
+                    >
                         <Box
+                            component="img"
+                            src={meal.image}
+                            alt={meal.name}
                             sx={{
-                                borderRadius: 4,
-                                overflow: "hidden",
-                                position: "relative",
+                                width: "100%",
+                                height: { xs: 300, md: 450 },
+                                objectFit: "cover",
                             }}
-                        >
-                            <Box
-                                component="img"
-                                src={meal.image}
-                                alt={meal.name}
-                                sx={{
-                                    width: "100%",
-                                    height: { xs: 300, md: 450 },
-                                    objectFit: "cover",
-                                }}
-                            />
-                            <Chip
-                                label={meal.tag}
-                                icon={<LocalFireDepartmentIcon />}
-                                sx={{
-                                    position: "absolute",
-                                    top: 16,
-                                    left: 16,
-                                    bgcolor: "primary.main",
-                                    color: "#fff",
-                                    fontWeight: 700,
-                                    "& .MuiChip-icon": { color: "#fff" },
-                                }}
-                            />
-                        </Box>
-                    </Grid>
+                        />
+                        <Chip
+                            label={meal.tag}
+                            icon={<LocalFireDepartmentIcon />}
+                            sx={{
+                                position: "absolute",
+                                top: 16,
+                                left: 16,
+                                bgcolor: "primary.main",
+                                color: "#fff",
+                                fontWeight: 700,
+                                "& .MuiChip-icon": { color: "#fff" },
+                            }}
+                        />
+                    </Box>
+                </Grid>
 
-                    {/* Details */}
-                    <Grid size={{ xs: 12, md: 6 }}>
-                        <Stack spacing={2}>
-                            <Box>
-                                <Typography variant="h3" fontWeight={800}>
-                                    {meal.name}
-                                </Typography>
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
-                                    alignItems="center"
-                                    sx={{ mt: 1 }}
-                                >
-                                    <Chip
-                                        label={meal.category}
-                                        size="small"
-                                        variant="outlined"
-                                    />
-                                    <Chip
-                                        label={meal.origin}
-                                        size="small"
-                                        variant="outlined"
-                                        color="secondary"
-                                    />
-                                </Stack>
-                            </Box>
-
-                            {/* Rating */}
-                            <Stack
-                                direction="row"
-                                spacing={1}
-                                alignItems="center"
-                            >
-                                <StarIcon sx={{ color: "#FFB400" }} />
-                                <Typography fontWeight={700}>
-                                    {meal.rating}
-                                </Typography>
-                                <Typography color="text.secondary">
-                                    ({meal.reviews} đánh giá)
-                                </Typography>
-                            </Stack>
-
-                            {/* Price */}
-                            <Typography
-                                variant="h3"
-                                color="primary"
-                                fontWeight={800}
-                            >
-                                {meal.price.toLocaleString("vi-VN")}đ
+                {/* Details */}
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <Stack spacing={2}>
+                        <Box>
+                            <Typography variant="h3" fontWeight={800}>
+                                {meal.name}
                             </Typography>
-
-                            {/* Description */}
-                            <Typography
-                                variant="body1"
-                                color="text.secondary"
-                                sx={{ lineHeight: 1.8 }}
-                            >
-                                {meal.fullDesc}
-                            </Typography>
-
-                            {/* Info chips */}
                             <Stack
                                 direction="row"
                                 spacing={2}
-                                flexWrap="wrap"
-                                useFlexGap
+                                alignItems="center"
+                                sx={{ mt: 1 }}
                             >
-                                <Card
+                                <Chip
+                                    label={meal.category}
+                                    size="small"
                                     variant="outlined"
-                                    sx={{ px: 2, py: 1, borderRadius: 2 }}
-                                >
-                                    <Stack
-                                        direction="row"
-                                        spacing={1}
-                                        alignItems="center"
-                                    >
-                                        <AccessTimeIcon
-                                            fontSize="small"
-                                            color="primary"
-                                        />
-                                        <Typography
-                                            variant="body2"
-                                            fontWeight={600}
-                                        >
-                                            {meal.time}
-                                        </Typography>
-                                    </Stack>
-                                </Card>
-                                <Card
+                                />
+                                <Chip
+                                    label={meal.origin}
+                                    size="small"
                                     variant="outlined"
-                                    sx={{ px: 2, py: 1, borderRadius: 2 }}
+                                    color="secondary"
+                                />
+                            </Stack>
+                        </Box>
+
+                        {/* Rating */}
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <StarIcon sx={{ color: "#FFB400" }} />
+                            <Typography fontWeight={700}>
+                                {meal.rating}
+                            </Typography>
+                            <Typography color="text.secondary">
+                                ({meal.reviews} đánh giá)
+                            </Typography>
+                        </Stack>
+
+                        {/* Price */}
+                        <Typography
+                            variant="h3"
+                            color="primary"
+                            fontWeight={800}
+                        >
+                            {meal.price.toLocaleString("vi-VN")}đ
+                        </Typography>
+
+                        {/* Description */}
+                        <Typography
+                            variant="body1"
+                            color="text.secondary"
+                            sx={{ lineHeight: 1.8 }}
+                        >
+                            {meal.fullDesc}
+                        </Typography>
+
+                        {/* Info chips */}
+                        <Stack
+                            direction="row"
+                            spacing={2}
+                            flexWrap="wrap"
+                            useFlexGap
+                        >
+                            <Card
+                                variant="outlined"
+                                sx={{ px: 2, py: 1, borderRadius: 2 }}
+                            >
+                                <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
                                 >
-                                    <Stack
-                                        direction="row"
-                                        spacing={1}
-                                        alignItems="center"
-                                    >
-                                        <DeliveryDiningIcon
-                                            fontSize="small"
-                                            color="secondary"
-                                        />
-                                        <Typography
-                                            variant="body2"
-                                            fontWeight={600}
-                                        >
-                                            Giao miễn phí
-                                        </Typography>
-                                    </Stack>
-                                </Card>
-                                <Card
-                                    variant="outlined"
-                                    sx={{ px: 2, py: 1, borderRadius: 2 }}
-                                >
+                                    <AccessTimeIcon
+                                        fontSize="small"
+                                        color="primary"
+                                    />
                                     <Typography
                                         variant="body2"
                                         fontWeight={600}
                                     >
-                                        🔥 {meal.calories}
+                                        {meal.time}
                                     </Typography>
-                                </Card>
-                            </Stack>
-
-                            {/* Add to cart */}
-                            <Button
-                                variant="contained"
-                                size="large"
-                                startIcon={<AddShoppingCartIcon />}
-                                onClick={handleAddToCart}
-                                sx={{
-                                    py: 2,
-                                    mt: 2,
-                                    fontSize: "1.1rem",
-                                    background:
-                                        "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
-                                    "&:hover": {
-                                        background:
-                                            "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
-                                    },
-                                }}
+                                </Stack>
+                            </Card>
+                            <Card
+                                variant="outlined"
+                                sx={{ px: 2, py: 1, borderRadius: 2 }}
                             >
-                                Thêm Vào Giỏ Hàng
-                            </Button>
+                                <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
+                                >
+                                    <DeliveryDiningIcon
+                                        fontSize="small"
+                                        color="secondary"
+                                    />
+                                    <Typography
+                                        variant="body2"
+                                        fontWeight={600}
+                                    >
+                                        Giao miễn phí
+                                    </Typography>
+                                </Stack>
+                            </Card>
+                            <Card
+                                variant="outlined"
+                                sx={{ px: 2, py: 1, borderRadius: 2 }}
+                            >
+                                <Typography variant="body2" fontWeight={600}>
+                                    🔥 {meal.calories}
+                                </Typography>
+                            </Card>
                         </Stack>
-                    </Grid>
+
+                        {/* Add to cart */}
+                        <Button
+                            variant="contained"
+                            size="large"
+                            startIcon={<AddShoppingCartIcon />}
+                            onClick={handleAddToCart}
+                            sx={{
+                                py: 2,
+                                mt: 2,
+                                fontSize: "1.1rem",
+                                background:
+                                    "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
+                                "&:hover": {
+                                    background:
+                                        "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
+                                },
+                            }}
+                        >
+                            Thêm Vào Giỏ Hàng
+                        </Button>
+                    </Stack>
                 </Grid>
-            </Container>
-        </Box>
+            </Grid>
+        </SectionLayout>
     );
 }
 

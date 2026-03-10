@@ -15,7 +15,6 @@ import {
     Badge,
     Box,
     Button,
-    Container,
     Divider,
     Drawer,
     IconButton,
@@ -35,6 +34,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { useThemeMode } from "../../context/ThemeContext";
+import { LAYOUT_MAX_WIDTH, RESPONSIVE_PX } from "./SectionLayout";
 
 const navLinks = [
     {
@@ -74,7 +74,14 @@ function Navbar() {
                             : "rgba(30,30,30,0.9)",
                 }}
             >
-                <Container maxWidth="lg">
+                <Box
+                    sx={{
+                        maxWidth: LAYOUT_MAX_WIDTH.default,
+                        mx: "auto",
+                        px: RESPONSIVE_PX,
+                        width: "100%",
+                    }}
+                >
                     <Toolbar disableGutters sx={{ py: 0.5 }}>
                         {/* Logo */}
                         <Stack
@@ -228,7 +235,7 @@ function Navbar() {
                             )}
                         </Stack>
                     </Toolbar>
-                </Container>
+                </Box>
             </AppBar>
 
             {/* Mobile drawer */}

@@ -10,7 +10,6 @@ import {
     CardContent,
     CardMedia,
     Chip,
-    Container,
     Grid,
     IconButton,
     Stack,
@@ -18,6 +17,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import SectionLayout from "../layout/SectionLayout";
 
 const nightMeals = [
     {
@@ -89,176 +89,164 @@ function NightMealSection() {
     };
 
     return (
-        <Box
-            id="night-meal"
-            sx={{
-                py: { xs: 8, md: 10 },
-                bgcolor: "background.default",
-            }}
-        >
-            <Container maxWidth="lg">
-                {/* Header */}
-                <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    justifyContent="space-between"
-                    alignItems={{ xs: "center", sm: "flex-end" }}
-                    sx={{ mb: 5 }}
-                    spacing={2}
+        <SectionLayout id="night-meal" bgcolor="background.default">
+            {/* Header */}
+            <Stack
+                direction={{ xs: "column", sm: "row" }}
+                justifyContent="space-between"
+                alignItems={{ xs: "center", sm: "flex-end" }}
+                sx={{ mb: 5 }}
+                spacing={2}
+            >
+                <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems="center"
+                        sx={{
+                            mb: 1,
+                            justifyContent: {
+                                xs: "center",
+                                sm: "flex-start",
+                            },
+                        }}
+                    >
+                        <NightsStayIcon color="primary" fontSize="large" />
+                        <Typography variant="h3" fontWeight={700}>
+                            Suất Ăn Đêm
+                        </Typography>
+                    </Stack>
+                    <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        sx={{ maxWidth: 480 }}
+                    >
+                        Dành cho các cô chú lao động ca đêm — Đặt nhanh, giao
+                        tận nơi, giá phải chăng
+                    </Typography>
+                </Box>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    component={RouterLink}
+                    to="/menu"
                 >
-                    <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
-                        <Stack
-                            direction="row"
-                            spacing={1}
-                            alignItems="center"
+                    Xem tất cả →
+                </Button>
+            </Stack>
+
+            {/* Meal Cards */}
+            <Grid container spacing={3}>
+                {nightMeals.map((meal) => (
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={meal._id}>
+                        <Card
                             sx={{
-                                mb: 1,
-                                justifyContent: {
-                                    xs: "center",
-                                    sm: "flex-start",
-                                },
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                position: "relative",
+                                overflow: "visible",
                             }}
                         >
-                            <NightsStayIcon color="primary" fontSize="large" />
-                            <Typography variant="h3" fontWeight={700}>
-                                Suất Ăn Đêm
-                            </Typography>
-                        </Stack>
-                        <Typography
-                            variant="body1"
-                            color="text.secondary"
-                            sx={{ maxWidth: 480 }}
-                        >
-                            Dành cho các cô chú lao động ca đêm — Đặt nhanh,
-                            giao tận nơi, giá phải chăng
-                        </Typography>
-                    </Box>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        size="large"
-                        component={RouterLink}
-                        to="/menu"
-                    >
-                        Xem tất cả →
-                    </Button>
-                </Stack>
-
-                {/* Meal Cards */}
-                <Grid container spacing={3}>
-                    {nightMeals.map((meal) => (
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={meal._id}>
-                            <Card
+                            {/* Tag */}
+                            <Chip
+                                label={meal.tag}
+                                size="small"
+                                icon={<LocalFireDepartmentIcon />}
                                 sx={{
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    position: "relative",
-                                    overflow: "visible",
+                                    position: "absolute",
+                                    top: 12,
+                                    left: 12,
+                                    zIndex: 2,
+                                    bgcolor: "primary.main",
+                                    color: "#fff",
+                                    fontWeight: 600,
+                                    "& .MuiChip-icon": { color: "#fff" },
                                 }}
+                            />
+                            <CardActionArea
+                                component={RouterLink}
+                                to={`/product/${meal._id}`}
                             >
-                                {/* Tag */}
-                                <Chip
-                                    label={meal.tag}
-                                    size="small"
-                                    icon={<LocalFireDepartmentIcon />}
-                                    sx={{
-                                        position: "absolute",
-                                        top: 12,
-                                        left: 12,
-                                        zIndex: 2,
-                                        bgcolor: "primary.main",
-                                        color: "#fff",
-                                        fontWeight: 600,
-                                        "& .MuiChip-icon": { color: "#fff" },
-                                    }}
+                                <CardMedia
+                                    component="img"
+                                    height="200"
+                                    image={meal.image}
+                                    alt={meal.name}
+                                    sx={{ objectFit: "cover" }}
                                 />
-                                <CardActionArea
-                                    component={RouterLink}
-                                    to={`/product/${meal._id}`}
+                            </CardActionArea>
+                            <CardContent sx={{ flexGrow: 1, pb: 1 }}>
+                                <Typography
+                                    variant="h6"
+                                    fontWeight={700}
+                                    gutterBottom
                                 >
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        image={meal.image}
-                                        alt={meal.name}
-                                        sx={{ objectFit: "cover" }}
-                                    />
-                                </CardActionArea>
-                                <CardContent sx={{ flexGrow: 1, pb: 1 }}>
-                                    <Typography
-                                        variant="h6"
-                                        fontWeight={700}
-                                        gutterBottom
-                                    >
-                                        {meal.name}
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                        sx={{ mb: 2 }}
-                                    >
-                                        {meal.desc}
-                                    </Typography>
-                                    <Stack
-                                        direction="row"
-                                        justifyContent="space-between"
-                                        alignItems="center"
-                                    >
-                                        <Box>
-                                            <Typography
-                                                variant="h5"
-                                                color="primary"
-                                                fontWeight={800}
-                                            >
-                                                {meal.price.toLocaleString(
-                                                    "vi-VN"
-                                                )}
-                                                đ
-                                            </Typography>
-                                            <Stack
-                                                direction="row"
-                                                alignItems="center"
-                                                spacing={0.5}
-                                            >
-                                                <AccessTimeIcon
-                                                    sx={{
-                                                        fontSize: 14,
-                                                        color: "text.secondary",
-                                                    }}
-                                                />
-                                                <Typography
-                                                    variant="caption"
-                                                    color="text.secondary"
-                                                >
-                                                    {meal.time}
-                                                </Typography>
-                                            </Stack>
-                                        </Box>
-                                        <IconButton
+                                    {meal.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{ mb: 2 }}
+                                >
+                                    {meal.desc}
+                                </Typography>
+                                <Stack
+                                    direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                >
+                                    <Box>
+                                        <Typography
+                                            variant="h5"
                                             color="primary"
-                                            onClick={() =>
-                                                handleAddToCart(meal)
-                                            }
-                                            sx={{
-                                                bgcolor: "primary.main",
-                                                color: "#fff",
-                                                width: 48,
-                                                height: 48,
-                                                "&:hover": {
-                                                    bgcolor: "primary.dark",
-                                                },
-                                            }}
+                                            fontWeight={800}
                                         >
-                                            <AddShoppingCartIcon />
-                                        </IconButton>
-                                    </Stack>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Container>
-        </Box>
+                                            {meal.price.toLocaleString("vi-VN")}
+                                            đ
+                                        </Typography>
+                                        <Stack
+                                            direction="row"
+                                            alignItems="center"
+                                            spacing={0.5}
+                                        >
+                                            <AccessTimeIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: "text.secondary",
+                                                }}
+                                            />
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                            >
+                                                {meal.time}
+                                            </Typography>
+                                        </Stack>
+                                    </Box>
+                                    <IconButton
+                                        color="primary"
+                                        onClick={() => handleAddToCart(meal)}
+                                        sx={{
+                                            bgcolor: "primary.main",
+                                            color: "#fff",
+                                            width: 48,
+                                            height: 48,
+                                            "&:hover": {
+                                                bgcolor: "primary.dark",
+                                            },
+                                        }}
+                                    >
+                                        <AddShoppingCartIcon />
+                                    </IconButton>
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </SectionLayout>
     );
 }
 

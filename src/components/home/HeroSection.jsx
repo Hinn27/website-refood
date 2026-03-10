@@ -1,11 +1,13 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-import { Box, Button, Chip, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Stack, Typography } from "@mui/material";
+import SectionLayout from "../layout/SectionLayout";
 
 function HeroSection() {
     return (
-        <Box
+        <SectionLayout
+            noPadding
             sx={{
                 position: "relative",
                 overflow: "hidden",
@@ -44,183 +46,181 @@ function HeroSection() {
                 }}
             />
 
-            <Container maxWidth="lg">
-                <Stack
-                    direction={{ xs: "column", md: "row" }}
-                    spacing={6}
-                    alignItems="center"
+            <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={6}
+                alignItems="center"
+            >
+                {/* Text content */}
+                <Box
+                    sx={{
+                        flex: 1,
+                        textAlign: { xs: "center", md: "left" },
+                    }}
                 >
-                    {/* Text content */}
-                    <Box
+                    <Chip
+                        icon={<FavoriteIcon sx={{ fontSize: 16 }} />}
+                        label="Sứ mệnh thiện nguyện"
+                        color="secondary"
+                        variant="outlined"
+                        sx={{ mb: 2, fontWeight: 600 }}
+                    />
+                    <Typography
+                        variant="h1"
                         sx={{
-                            flex: 1,
-                            textAlign: { xs: "center", md: "left" },
+                            mb: 2,
+                            fontSize: {
+                                xs: "2.2rem",
+                                sm: "2.8rem",
+                                md: "3.5rem",
+                            },
+                            background:
+                                "linear-gradient(135deg, #E8651A 0%, #2E7D32 100%)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            backgroundClip: "text",
                         }}
                     >
-                        <Chip
-                            icon={<FavoriteIcon sx={{ fontSize: 16 }} />}
-                            label="Sứ mệnh thiện nguyện"
-                            color="secondary"
-                            variant="outlined"
-                            sx={{ mb: 2, fontWeight: 600 }}
-                        />
-                        <Typography
-                            variant="h1"
+                        ReFoodVN
+                    </Typography>
+                    <Typography
+                        variant="h4"
+                        color="text.secondary"
+                        sx={{
+                            mb: 3,
+                            fontWeight: 400,
+                            fontSize: { xs: "1.1rem", md: "1.4rem" },
+                            lineHeight: 1.6,
+                        }}
+                    >
+                        Kết nối yêu thương — Mang bữa ăn ấm lòng
+                        <br />
+                        đến với những người cần nhất
+                    </Typography>
+                    <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        sx={{
+                            mb: 4,
+                            maxWidth: 520,
+                            mx: { xs: "auto", md: 0 },
+                        }}
+                    >
+                        Hỗ trợ cô chú lao động ban đêm, kết nối "Quán ăn 0 đồng"
+                        với các nhóm thiện nguyện, đưa bữa ăn miễn phí đến người
+                        cao tuổi neo đơn.
+                    </Typography>
+
+                    <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={2}
+                        justifyContent={{ xs: "center", md: "flex-start" }}
+                    >
+                        <Button
+                            variant="contained"
+                            size="large"
+                            startIcon={<NightsStayIcon />}
+                            href="#night-meal"
                             sx={{
-                                mb: 2,
-                                fontSize: {
-                                    xs: "2.2rem",
-                                    sm: "2.8rem",
-                                    md: "3.5rem",
-                                },
                                 background:
-                                    "linear-gradient(135deg, #E8651A 0%, #2E7D32 100%)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
-                            ReFoodVN
-                        </Typography>
-                        <Typography
-                            variant="h4"
-                            color="text.secondary"
-                            sx={{
-                                mb: 3,
-                                fontWeight: 400,
-                                fontSize: { xs: "1.1rem", md: "1.4rem" },
-                                lineHeight: 1.6,
-                            }}
-                        >
-                            Kết nối yêu thương — Mang bữa ăn ấm lòng
-                            <br />
-                            đến với những người cần nhất
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            color="text.secondary"
-                            sx={{
-                                mb: 4,
-                                maxWidth: 520,
-                                mx: { xs: "auto", md: 0 },
-                            }}
-                        >
-                            Hỗ trợ cô chú lao động ban đêm, kết nối "Quán ăn 0
-                            đồng" với các nhóm thiện nguyện, đưa bữa ăn miễn phí
-                            đến người cao tuổi neo đơn.
-                        </Typography>
-
-                        <Stack
-                            direction={{ xs: "column", sm: "row" }}
-                            spacing={2}
-                            justifyContent={{ xs: "center", md: "flex-start" }}
-                        >
-                            <Button
-                                variant="contained"
-                                size="large"
-                                startIcon={<NightsStayIcon />}
-                                href="#night-meal"
-                                sx={{
+                                    "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
+                                "&:hover": {
                                     background:
-                                        "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
-                                    "&:hover": {
-                                        background:
-                                            "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
-                                    },
-                                }}
-                            >
-                                Đặt Suất Ăn Đêm
-                            </Button>
-                            <Button
-                                variant="contained"
-                                size="large"
-                                startIcon={<VolunteerActivismIcon />}
-                                href="#volunteer"
-                                sx={{
+                                        "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
+                                },
+                            }}
+                        >
+                            Đặt Suất Ăn Đêm
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            startIcon={<VolunteerActivismIcon />}
+                            href="#volunteer"
+                            sx={{
+                                background:
+                                    "linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)",
+                                "&:hover": {
                                     background:
-                                        "linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)",
-                                    "&:hover": {
-                                        background:
-                                            "linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)",
-                                    },
-                                }}
-                            >
-                                Tham Gia Thiện Nguyện
-                            </Button>
-                        </Stack>
-                    </Box>
+                                        "linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)",
+                                },
+                            }}
+                        >
+                            Tham Gia Thiện Nguyện
+                        </Button>
+                    </Stack>
+                </Box>
 
-                    {/* Hero visual */}
+                {/* Hero visual */}
+                <Box
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        position: "relative",
+                    }}
+                >
                     <Box
                         sx={{
-                            flex: 1,
-                            display: "flex",
-                            justifyContent: "center",
+                            width: { xs: 280, sm: 350, md: 420 },
+                            height: { xs: 280, sm: 350, md: 420 },
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            border: "6px solid",
+                            borderColor: "primary.light",
+                            boxShadow: "0 20px 60px rgba(232,101,26,0.2)",
                             position: "relative",
                         }}
                     >
                         <Box
+                            component="img"
+                            src="/assets/images/food/pho-bo.jpg"
+                            alt="Phở bò - Món ăn Việt Nam"
                             sx={{
-                                width: { xs: 280, sm: 350, md: 420 },
-                                height: { xs: 280, sm: 350, md: 420 },
-                                borderRadius: "50%",
-                                overflow: "hidden",
-                                border: "6px solid",
-                                borderColor: "primary.light",
-                                boxShadow: "0 20px 60px rgba(232,101,26,0.2)",
-                                position: "relative",
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
                             }}
-                        >
-                            <Box
-                                component="img"
-                                src="/assets/images/food/pho-bo.jpg"
-                                alt="Phở bò - Món ăn Việt Nam"
-                                sx={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                }}
-                            />
-                        </Box>
-                        {/* Floating badges */}
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                top: { xs: -10, md: 10 },
-                                right: { xs: 10, md: 20 },
-                                bgcolor: "secondary.main",
-                                color: "#fff",
-                                borderRadius: 3,
-                                px: 2,
-                                py: 1,
-                                fontWeight: 700,
-                                fontSize: "0.9rem",
-                                boxShadow: "0 4px 20px rgba(46,125,50,0.3)",
-                            }}
-                        >
-                            🤝 500+ Tình nguyện viên
-                        </Box>
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                bottom: { xs: -10, md: 20 },
-                                left: { xs: 10, md: -10 },
-                                bgcolor: "primary.main",
-                                color: "#fff",
-                                borderRadius: 3,
-                                px: 2,
-                                py: 1,
-                                fontWeight: 700,
-                                fontSize: "0.9rem",
-                                boxShadow: "0 4px 20px rgba(232,101,26,0.3)",
-                            }}
-                        >
-                            🌙 Phục vụ 24/7
-                        </Box>
+                        />
                     </Box>
-                </Stack>
-            </Container>
-        </Box>
+                    {/* Floating badges */}
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: { xs: -10, md: 10 },
+                            right: { xs: 10, md: 20 },
+                            bgcolor: "secondary.main",
+                            color: "#fff",
+                            borderRadius: 3,
+                            px: 2,
+                            py: 1,
+                            fontWeight: 700,
+                            fontSize: "0.9rem",
+                            boxShadow: "0 4px 20px rgba(46,125,50,0.3)",
+                        }}
+                    >
+                        🤝 500+ Tình nguyện viên
+                    </Box>
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            bottom: { xs: -10, md: 20 },
+                            left: { xs: 10, md: -10 },
+                            bgcolor: "primary.main",
+                            color: "#fff",
+                            borderRadius: 3,
+                            px: 2,
+                            py: 1,
+                            fontWeight: 700,
+                            fontSize: "0.9rem",
+                            boxShadow: "0 4px 20px rgba(232,101,26,0.3)",
+                        }}
+                    >
+                        🌙 Phục vụ 24/7
+                    </Box>
+                </Box>
+            </Stack>
+        </SectionLayout>
     );
 }
 

@@ -11,11 +11,11 @@ import {
     Card,
     CardContent,
     Chip,
-    Container,
     Grid,
     Stack,
     Typography,
 } from "@mui/material";
+import SectionLayout from "../layout/SectionLayout";
 
 const zeroDongRestaurants = [
     {
@@ -62,166 +62,202 @@ const zeroDongRestaurants = [
 
 function ZeroDongMapSection() {
     return (
-        <Box
+        <SectionLayout
             id="zero-dong"
-            sx={{
-                py: { xs: 8, md: 10 },
-                bgcolor: (theme) =>
-                    theme.palette.mode === "light"
-                        ? "rgba(46,125,50,0.04)"
-                        : "rgba(46,125,50,0.08)",
-            }}
+            bgcolor={(theme) =>
+                theme.palette.mode === "light"
+                    ? "rgba(46,125,50,0.04)"
+                    : "rgba(46,125,50,0.08)"
+            }
         >
-            <Container maxWidth="lg">
-                {/* Header */}
-                <Box sx={{ textAlign: "center", mb: 6 }}>
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{ mb: 1 }}
-                    >
-                        <StorefrontIcon color="secondary" fontSize="large" />
-                        <Typography variant="h3" fontWeight={700}>
-                            Bản Đồ Quán Ăn 0 Đồng
-                        </Typography>
-                    </Stack>
-                    <Typography
-                        variant="body1"
-                        color="text.secondary"
-                        sx={{ maxWidth: 600, mx: "auto" }}
-                    >
-                        Tìm các quán ăn thiện nguyện gần bạn — Nơi mỗi bữa cơm
-                        là một tấm lòng, mỗi suất ăn là một yêu thương
+            {/* Header */}
+            <Box sx={{ textAlign: "center", mb: 6 }}>
+                <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent="center"
+                    sx={{ mb: 1 }}
+                >
+                    <StorefrontIcon color="secondary" fontSize="large" />
+                    <Typography variant="h3" fontWeight={700}>
+                        Bản Đồ Quán Ăn 0 Đồng
                     </Typography>
-                </Box>
+                </Stack>
+                <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ maxWidth: 600, mx: "auto" }}
+                >
+                    Tìm các quán ăn thiện nguyện gần bạn — Nơi mỗi bữa cơm là
+                    một tấm lòng, mỗi suất ăn là một yêu thương
+                </Typography>
+            </Box>
 
-                <Grid container spacing={4}>
-                    {/* Map placeholder */}
-                    <Grid size={{ xs: 12, md: 7 }}>
-                        <Box
-                            sx={{
-                                height: { xs: 300, md: 480 },
-                                borderRadius: 4,
-                                overflow: "hidden",
-                                bgcolor: "background.paper",
-                                border: "2px dashed",
-                                borderColor: "secondary.light",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: 2,
-                            }}
+            <Grid container spacing={4}>
+                {/* Map placeholder */}
+                <Grid size={{ xs: 12, md: 7 }}>
+                    <Box
+                        sx={{
+                            height: { xs: 300, md: 480 },
+                            borderRadius: 4,
+                            overflow: "hidden",
+                            bgcolor: "background.paper",
+                            border: "2px dashed",
+                            borderColor: "secondary.light",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: 2,
+                        }}
+                    >
+                        <MapIcon
+                            sx={{ fontSize: 80, color: "secondary.light" }}
+                        />
+                        <Typography variant="h6" color="text.secondary">
+                            Bản đồ Google Maps
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ maxWidth: 300, textAlign: "center" }}
                         >
-                            <MapIcon
-                                sx={{ fontSize: 80, color: "secondary.light" }}
-                            />
-                            <Typography variant="h6" color="text.secondary">
-                                Bản đồ Google Maps
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                sx={{ maxWidth: 300, textAlign: "center" }}
-                            >
-                                Tích hợp bản đồ hiển thị vị trí các quán ăn 0
-                                đồng trên toàn thành phố
-                            </Typography>
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                startIcon={<LocationOnIcon />}
-                            >
-                                Mở bản đồ đầy đủ
-                            </Button>
-                        </Box>
-                    </Grid>
+                            Tích hợp bản đồ hiển thị vị trí các quán ăn 0 đồng
+                            trên toàn thành phố
+                        </Typography>
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            startIcon={<LocationOnIcon />}
+                        >
+                            Mở bản đồ đầy đủ
+                        </Button>
+                    </Box>
+                </Grid>
 
-                    {/* Restaurant list */}
-                    <Grid size={{ xs: 12, md: 5 }}>
-                        <Stack spacing={2}>
-                            {zeroDongRestaurants.map((restaurant) => (
-                                <Card
-                                    key={restaurant.id}
+                {/* Restaurant list */}
+                <Grid size={{ xs: 12, md: 5 }}>
+                    <Stack spacing={2}>
+                        {zeroDongRestaurants.map((restaurant) => (
+                            <Card
+                                key={restaurant.id}
+                                sx={{
+                                    "&:hover": {
+                                        borderLeft: "4px solid",
+                                        borderColor: "secondary.main",
+                                    },
+                                }}
+                            >
+                                <CardContent
                                     sx={{
-                                        "&:hover": {
-                                            borderLeft: "4px solid",
-                                            borderColor: "secondary.main",
-                                        },
+                                        py: 2,
+                                        "&:last-child": { pb: 2 },
                                     }}
                                 >
-                                    <CardContent
-                                        sx={{
-                                            py: 2,
-                                            "&:last-child": { pb: 2 },
-                                        }}
+                                    <Stack
+                                        direction="row"
+                                        spacing={2}
+                                        alignItems="flex-start"
                                     >
-                                        <Stack
-                                            direction="row"
-                                            spacing={2}
-                                            alignItems="flex-start"
+                                        <Avatar
+                                            sx={{
+                                                bgcolor: "secondary.light",
+                                                width: 48,
+                                                height: 48,
+                                                fontSize: 24,
+                                            }}
                                         >
-                                            <Avatar
-                                                sx={{
-                                                    bgcolor: "secondary.light",
-                                                    width: 48,
-                                                    height: 48,
-                                                    fontSize: 24,
-                                                }}
+                                            {restaurant.avatar}
+                                        </Avatar>
+                                        <Box sx={{ flex: 1 }}>
+                                            <Stack
+                                                direction="row"
+                                                justifyContent="space-between"
+                                                alignItems="center"
                                             >
-                                                {restaurant.avatar}
-                                            </Avatar>
-                                            <Box sx={{ flex: 1 }}>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    fontWeight={700}
+                                                >
+                                                    {restaurant.name}
+                                                </Typography>
+                                                <Chip
+                                                    label={restaurant.status}
+                                                    size="small"
+                                                    color={
+                                                        restaurant.status ===
+                                                        "Đang mở"
+                                                            ? "success"
+                                                            : "default"
+                                                    }
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        fontSize: "0.7rem",
+                                                    }}
+                                                />
+                                            </Stack>
+                                            <Stack
+                                                spacing={0.5}
+                                                sx={{ mt: 0.5 }}
+                                            >
                                                 <Stack
                                                     direction="row"
-                                                    justifyContent="space-between"
+                                                    spacing={0.5}
                                                     alignItems="center"
                                                 >
-                                                    <Typography
-                                                        variant="subtitle1"
-                                                        fontWeight={700}
-                                                    >
-                                                        {restaurant.name}
-                                                    </Typography>
-                                                    <Chip
-                                                        label={
-                                                            restaurant.status
-                                                        }
-                                                        size="small"
-                                                        color={
-                                                            restaurant.status ===
-                                                            "Đang mở"
-                                                                ? "success"
-                                                                : "default"
-                                                        }
+                                                    <LocationOnIcon
                                                         sx={{
-                                                            fontWeight: 600,
-                                                            fontSize: "0.7rem",
+                                                            fontSize: 14,
+                                                            color: "text.secondary",
                                                         }}
                                                     />
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                    >
+                                                        {restaurant.address}
+                                                    </Typography>
                                                 </Stack>
                                                 <Stack
+                                                    direction="row"
                                                     spacing={0.5}
-                                                    sx={{ mt: 0.5 }}
+                                                    alignItems="center"
+                                                >
+                                                    <AccessTimeIcon
+                                                        sx={{
+                                                            fontSize: 14,
+                                                            color: "text.secondary",
+                                                        }}
+                                                    />
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                    >
+                                                        {restaurant.hours}
+                                                    </Typography>
+                                                </Stack>
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={2}
                                                 >
                                                     <Stack
                                                         direction="row"
                                                         spacing={0.5}
                                                         alignItems="center"
                                                     >
-                                                        <LocationOnIcon
+                                                        <PeopleIcon
                                                             sx={{
                                                                 fontSize: 14,
-                                                                color: "text.secondary",
+                                                                color: "secondary.main",
                                                             }}
                                                         />
                                                         <Typography
                                                             variant="caption"
-                                                            color="text.secondary"
+                                                            color="secondary"
+                                                            fontWeight={600}
                                                         >
-                                                            {restaurant.address}
+                                                            {restaurant.served}
                                                         </Typography>
                                                     </Stack>
                                                     <Stack
@@ -229,7 +265,7 @@ function ZeroDongMapSection() {
                                                         spacing={0.5}
                                                         alignItems="center"
                                                     >
-                                                        <AccessTimeIcon
+                                                        <PhoneIcon
                                                             sx={{
                                                                 fontSize: 14,
                                                                 color: "text.secondary",
@@ -239,66 +275,20 @@ function ZeroDongMapSection() {
                                                             variant="caption"
                                                             color="text.secondary"
                                                         >
-                                                            {restaurant.hours}
+                                                            {restaurant.phone}
                                                         </Typography>
                                                     </Stack>
-                                                    <Stack
-                                                        direction="row"
-                                                        spacing={2}
-                                                    >
-                                                        <Stack
-                                                            direction="row"
-                                                            spacing={0.5}
-                                                            alignItems="center"
-                                                        >
-                                                            <PeopleIcon
-                                                                sx={{
-                                                                    fontSize: 14,
-                                                                    color: "secondary.main",
-                                                                }}
-                                                            />
-                                                            <Typography
-                                                                variant="caption"
-                                                                color="secondary"
-                                                                fontWeight={600}
-                                                            >
-                                                                {
-                                                                    restaurant.served
-                                                                }
-                                                            </Typography>
-                                                        </Stack>
-                                                        <Stack
-                                                            direction="row"
-                                                            spacing={0.5}
-                                                            alignItems="center"
-                                                        >
-                                                            <PhoneIcon
-                                                                sx={{
-                                                                    fontSize: 14,
-                                                                    color: "text.secondary",
-                                                                }}
-                                                            />
-                                                            <Typography
-                                                                variant="caption"
-                                                                color="text.secondary"
-                                                            >
-                                                                {
-                                                                    restaurant.phone
-                                                                }
-                                                            </Typography>
-                                                        </Stack>
-                                                    </Stack>
                                                 </Stack>
-                                            </Box>
-                                        </Stack>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </Stack>
-                    </Grid>
+                                            </Stack>
+                                        </Box>
+                                    </Stack>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </Stack>
                 </Grid>
-            </Container>
-        </Box>
+            </Grid>
+        </SectionLayout>
     );
 }
 
