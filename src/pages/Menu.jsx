@@ -10,20 +10,22 @@ import {
     Card,
     CardActionArea,
     CardContent,
-    CardMedia,
     Chip,
     Grid,
     IconButton,
     InputAdornment,
+    Pagination,
     Stack,
     TextField,
     ToggleButton,
     ToggleButtonGroup,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import AnimatedSection from "../components/common/AnimatedSection";
+import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
 import { allMeals } from "./ProductDetail";
@@ -34,8 +36,11 @@ function Menu() {
     const { addItem } = useCart();
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("Tất cả");
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 8;
 
     const filteredMeals = useMemo(() => {
+        setPage(1);
         return allMeals.filter((meal) => {
             const matchSearch = meal.name
                 .toLowerCase()
@@ -45,6 +50,17 @@ function Menu() {
             return matchSearch && matchCategory;
         });
     }, [search, category]);
+
+    const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
+    const paginatedMeals = filteredMeals.slice(
+        (page - 1) * itemsPerPage,
+        page * itemsPerPage
+    );
+
+    const handlePageChange = (event, value) => {
+        setPage(value);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     const handleAddToCart = (meal) => {
         addItem({
@@ -168,7 +184,7 @@ function Menu() {
                     </Box>
                 ) : (
                     <Grid container spacing={3}>
-                        {filteredMeals.map((meal) => (
+                        {paginatedMeals.map((meal) => (
                             <Grid
                                 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
                                 key={meal._id}
@@ -202,12 +218,15 @@ function Menu() {
                                         component={RouterLink}
                                         to={`/product/${meal._id}`}
                                     >
-                                        <CardMedia
+                                        <CardMediaSkeleton
                                             component="img"
-                                            height="180"
                                             image={meal.image}
                                             alt={meal.name}
-                                            sx={{ objectFit: "cover" }}
+                                            sx={{
+                                                aspectRatio: "16/10",
+                                                objectFit: "cover",
+                                                width: "100%",
+                                            }}
                                         />
                                     </CardActionArea>
                                     <CardContent sx={{ flexGrow: 1, pb: 1.5 }}>
@@ -298,29 +317,51 @@ function Menu() {
                                                 )}
                                                 đ
                                             </Typography>
-                                            <IconButton
-                                                color="primary"
-                                                onClick={() =>
-                                                    handleAddToCart(meal)
-                                                }
-                                                sx={{
-                                                    bgcolor: "primary.main",
-                                                    color: "#fff",
-                                                    width: 40,
-                                                    height: 40,
-                                                    "&:hover": {
-                                                        bgcolor: "primary.dark",
-                                                    },
-                                                }}
-                                            >
-                                                <AddShoppingCartIcon fontSize="small" />
-                                            </IconButton>
+                                            <Tooltip title="Thêm vào giỏ hàng">
+                                                <IconButton
+                                                    color="primary"
+                                                    onClick={() =>
+                                                        handleAddToCart(meal)
+                                                    }
+                                                    sx={{
+                                                        bgcolor: "primary.main",
+                                                        color: "#fff",
+                                                        width: 40,
+                                                        height: 40,
+                                                        "&:hover": {
+                                                            bgcolor:
+                                                                "primary.dark",
+                                                        },
+                                                    }}
+                                                >
+                                                    <AddShoppingCartIcon fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
                                         </Stack>
                                     </CardContent>
                                 </Card>
                             </Grid>
                         ))}
                     </Grid>
+                )}
+                {totalPages > 1 && (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            mt: 5,
+                        }}
+                    >
+                        <Pagination
+                            count={totalPages}
+                            page={page}
+                            onChange={handlePageChange}
+                            color="primary"
+                            size="large"
+                            showFirstButton
+                            showLastButton
+                        />
+                    </Box>
                 )}
             </AnimatedSection>
         </SectionLayout>

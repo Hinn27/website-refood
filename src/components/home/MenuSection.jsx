@@ -10,13 +10,13 @@ import {
     Card,
     CardActionArea,
     CardContent,
-    CardMedia,
     Chip,
     Grid,
     IconButton,
     Stack,
     ToggleButton,
     ToggleButtonGroup,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { useInView } from "framer-motion";
@@ -29,6 +29,7 @@ import AnimatedSection, {
     staggerContainer,
     staggerItem,
 } from "../common/AnimatedSection";
+import CardMediaSkeleton from "../common/CardMediaSkeleton";
 import SectionLayout from "../layout/SectionLayout";
 
 const categories = [
@@ -235,12 +236,15 @@ function MenuSection() {
                                         component={RouterLink}
                                         to={`/product/${meal._id}`}
                                     >
-                                        <CardMedia
+                                        <CardMediaSkeleton
                                             component="img"
-                                            height="180"
                                             image={meal.image}
                                             alt={meal.name}
-                                            sx={{ objectFit: "cover" }}
+                                            sx={{
+                                                aspectRatio: "16/10",
+                                                objectFit: "cover",
+                                                width: "100%",
+                                            }}
                                         />
                                     </CardActionArea>
                                     <CardContent sx={{ flexGrow: 1, pb: 1 }}>
@@ -300,28 +304,32 @@ function MenuSection() {
                                                     </Typography>
                                                 </Stack>
                                             </Box>
-                                            <IconButton
-                                                color="primary"
-                                                onClick={() =>
-                                                    handleAddToCart(meal)
-                                                }
-                                                sx={{
-                                                    bgcolor: "primary.main",
-                                                    color: "#fff",
-                                                    width: 44,
-                                                    height: 44,
-                                                    "&:hover": {
-                                                        bgcolor: "primary.dark",
-                                                        transform: "scale(1.1)",
-                                                    },
-                                                    transition:
-                                                        "transform 0.2s ease",
-                                                }}
-                                            >
-                                                <AddShoppingCartIcon
-                                                    sx={{ fontSize: 20 }}
-                                                />
-                                            </IconButton>
+                                            <Tooltip title="Thêm vào giỏ hàng">
+                                                <IconButton
+                                                    color="primary"
+                                                    onClick={() =>
+                                                        handleAddToCart(meal)
+                                                    }
+                                                    sx={{
+                                                        bgcolor: "primary.main",
+                                                        color: "#fff",
+                                                        width: 44,
+                                                        height: 44,
+                                                        "&:hover": {
+                                                            bgcolor:
+                                                                "primary.dark",
+                                                            transform:
+                                                                "scale(1.1)",
+                                                        },
+                                                        transition:
+                                                            "transform 0.2s ease",
+                                                    }}
+                                                >
+                                                    <AddShoppingCartIcon
+                                                        sx={{ fontSize: 20 }}
+                                                    />
+                                                </IconButton>
+                                            </Tooltip>
                                         </Stack>
                                     </CardContent>
                                 </Card>
