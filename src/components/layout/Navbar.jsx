@@ -4,7 +4,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
+
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -15,6 +15,11 @@ import {
     Badge,
     Box,
     Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Divider,
     Drawer,
     IconButton,
@@ -25,6 +30,7 @@ import {
     ListItemText,
     Stack,
     Toolbar,
+    Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
@@ -43,7 +49,7 @@ const navLinks = [
         icon: <RestaurantMenuIcon />,
         isRoute: true,
     },
-    { label: "Suất Ăn Đêm", href: "/#night-meal", icon: <NightsStayIcon /> },
+    { label: "Quán Ăn 0đ", href: "/#quan-an-0d", icon: <StorefrontIcon /> },
     { label: "Quán Ăn 0 Đồng", href: "/#zero-dong", icon: <StorefrontIcon /> },
     {
         label: "Thiện Nguyện",
@@ -59,6 +65,12 @@ function Navbar() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [logoutDialog, setLogoutDialog] = useState(false);
+
+    const handleLogout = () => {
+        logout();
+        setLogoutDialog(false);
+    };
 
     return (
         <>
@@ -145,39 +157,46 @@ function Navbar() {
 
                         {/* Right side */}
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <IconButton
-                                onClick={toggleTheme}
-                                sx={{
-                                    color:
-                                        mode === "dark" ? "#FFD54F" : "#5C6BC0",
-                                }}
+                            <Tooltip
                                 title={
                                     mode === "dark"
-                                        ? "Chuyển sang chế độ sáng"
-                                        : "Chuyển sang chế độ tối (Ban đêm)"
+                                        ? "Chế độ sáng"
+                                        : "Chế độ tối (Ban đêm)"
                                 }
                             >
-                                {mode === "dark" ? (
-                                    <LightModeIcon />
-                                ) : (
-                                    <DarkModeIcon />
-                                )}
-                            </IconButton>
+                                <IconButton
+                                    onClick={toggleTheme}
+                                    sx={{
+                                        color:
+                                            mode === "dark"
+                                                ? "#FFD54F"
+                                                : "#5C6BC0",
+                                    }}
+                                >
+                                    {mode === "dark" ? (
+                                        <LightModeIcon />
+                                    ) : (
+                                        <DarkModeIcon />
+                                    )}
+                                </IconButton>
+                            </Tooltip>
 
                             {/* Cart icon */}
-                            <IconButton
-                                component={RouterLink}
-                                to="/cart"
-                                sx={{ color: "text.primary" }}
-                            >
-                                <Badge
-                                    badgeContent={totalItems}
-                                    color="primary"
-                                    max={99}
+                            <Tooltip title="Giỏ hàng">
+                                <IconButton
+                                    component={RouterLink}
+                                    to="/cart"
+                                    sx={{ color: "text.primary" }}
                                 >
-                                    <ShoppingCartIcon />
-                                </Badge>
-                            </IconButton>
+                                    <Badge
+                                        badgeContent={totalItems}
+                                        color="primary"
+                                        max={99}
+                                    >
+                                        <ShoppingCartIcon />
+                                    </Badge>
+                                </IconButton>
+                            </Tooltip>
 
                             {!isMobile && (
                                 <>
@@ -198,7 +217,9 @@ function Navbar() {
                                             <Button
                                                 variant="outlined"
                                                 startIcon={<LogoutIcon />}
-                                                onClick={logout}
+                                                onClick={() =>
+                                                    setLogoutDialog(true)
+                                                }
                                                 size="small"
                                             >
                                                 Đăng Xuất
@@ -297,7 +318,7 @@ function Navbar() {
                                 fullWidth
                                 startIcon={<LogoutIcon />}
                                 onClick={() => {
-                                    logout();
+                                    setLogoutDialog(true);
                                     setDrawerOpen(false);
                                 }}
                             >
@@ -338,6 +359,26 @@ function Navbar() {
                     )}
                 </Box>
             </Drawer>
+
+            {/* Dialog xác nhận đăng xuất */}
+            <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
+                <DialogTitle fontWeight={700}>Đăng xuất?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Bạn có chắc muốn đăng xuất khỏi tài khoản ReFoodVN?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setLogoutDialog(false)}>Hủy</Button>
+                    <Button
+                        onClick={handleLogout}
+                        color="primary"
+                        variant="contained"
+                    >
+                        Đăng Xuất
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }

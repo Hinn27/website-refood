@@ -10,11 +10,17 @@ import {
     Button,
     Card,
     CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Divider,
     IconButton,
     Stack,
     Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import AnimatedSection from "../components/common/AnimatedSection";
 import SectionLayout from "../components/layout/SectionLayout";
@@ -29,6 +35,22 @@ function Cart() {
         updateQuantity,
         clearCart,
     } = useCart();
+    const [deleteDialog, setDeleteDialog] = useState({
+        open: false,
+        itemId: null,
+        itemName: "",
+    });
+    const [clearDialog, setClearDialog] = useState(false);
+
+    const handleDeleteConfirm = () => {
+        removeItem(deleteDialog.itemId);
+        setDeleteDialog({ open: false, itemId: null, itemName: "" });
+    };
+
+    const handleClearConfirm = () => {
+        clearCart();
+        setClearDialog(false);
+    };
 
     if (items.length === 0) {
         return (
@@ -58,8 +80,8 @@ function Cart() {
                             color="text.secondary"
                             textAlign="center"
                         >
-                            Hãy thêm món ăn vào giỏ để đặt suất ăn đêm cho các
-                            cô chú lao động nhé!
+                            Hãy thêm món ăn vào giỏ để đặt bữa ăn miễn phí cho
+                            các cô chú lao động nhé!
                         </Typography>
                         <Button
                             variant="contained"
@@ -221,7 +243,11 @@ function Cart() {
                                             <IconButton
                                                 color="error"
                                                 onClick={() =>
-                                                    removeItem(item._id)
+                                                    setDeleteDialog({
+                                                        open: true,
+                                                        itemId: item._id,
+                                                        itemName: item.name,
+                                                    })
                                                 }
                                             >
                                                 <DeleteOutlineIcon />
@@ -248,7 +274,7 @@ function Cart() {
                                 variant="outlined"
                                 color="error"
                                 startIcon={<DeleteOutlineIcon />}
-                                onClick={clearCart}
+                                onClick={() => setClearDialog(true)}
                             >
                                 Xóa giỏ hàng
                             </Button>
@@ -339,6 +365,65 @@ function Cart() {
                     </Card>
                 </Stack>
             </AnimatedSection>
+
+            {/* Dialog xác nhận xóa món */}
+            <Dialog
+                open={deleteDialog.open}
+                onClose={() =>
+                    setDeleteDialog({ open: false, itemId: null, itemName: "" })
+                }
+            >
+                <DialogTitle fontWeight={700}>Xóa món ăn?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Bạn có chắc muốn xóa{" "}
+                        <strong>{deleteDialog.itemName}</strong> khỏi giỏ hàng?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() =>
+                            setDeleteDialog({
+                                open: false,
+                                itemId: null,
+                                itemName: "",
+                            })
+                        }
+                    >
+                        Hủy
+                    </Button>
+                    <Button
+                        onClick={handleDeleteConfirm}
+                        color="error"
+                        variant="contained"
+                    >
+                        Xóa
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Dialog xác nhận xóa giỏ hàng */}
+            <Dialog open={clearDialog} onClose={() => setClearDialog(false)}>
+                <DialogTitle fontWeight={700}>
+                    Xóa toàn bộ giỏ hàng?
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Tất cả {totalItems} món sẽ bị xóa khỏi giỏ hàng. Bạn có
+                        chắc chắn?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setClearDialog(false)}>Hủy</Button>
+                    <Button
+                        onClick={handleClearConfirm}
+                        color="error"
+                        variant="contained"
+                    >
+                        Xóa tất cả
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </SectionLayout>
     );
 }
