@@ -7,7 +7,7 @@ import VolunteerSection from "../components/home/VolunteerSection";
 function Home() {
     return (
         <Box>
-            {/* Hero Banner — Giới thiệu sứ mệnh ReFoodVN */}
+            {/* Hero Banner — Giới thiệu sứ mệnh ReFood */}
             <HeroSection />
 
             {/* Phân mục 1: Thực đơn đầy đủ — lọc theo danh mục */}

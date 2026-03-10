@@ -101,7 +101,7 @@ function Register() {
                                 Tạo Tài Khoản
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Tham gia ReFoodVN — Kết nối yêu thương
+                                Tham gia ReFood — Kết nối yêu thương
                             </Typography>
                         </Stack>
 

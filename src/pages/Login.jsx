@@ -42,7 +42,7 @@ function Login() {
         // Mock login — thay bằng API call thực tế
         login({
             id: "1",
-            name: "Người dùng ReFoodVN",
+            name: "Người dùng ReFood",
             email: form.email,
             role: "user",
         });
@@ -82,7 +82,7 @@ function Login() {
                                     backgroundClip: "text",
                                 }}
                             >
-                                ReFoodVN
+                                ReFood
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Đăng nhập để đặt suất ăn & tham gia thiện nguyện

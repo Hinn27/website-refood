@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-// Bảng màu ReFoodVN
+// Bảng màu ReFood
 // Cam ấm: thực phẩm / sự ấm áp
 // Xanh lá: hy vọng / thiện nguyện
 const palette = {

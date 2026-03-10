@@ -118,7 +118,7 @@ function Navbar() {
                                     backgroundClip: "text",
                                 }}
                             >
-                                ReFoodVN
+                                ReFood
                             </Typography>
                         </Stack>
 
@@ -278,7 +278,7 @@ function Navbar() {
                             fontWeight={700}
                             color="primary"
                         >
-                            ReFoodVN
+                            ReFood
                         </Typography>
                         <IconButton onClick={() => setDrawerOpen(false)}>
                             <CloseIcon />
@@ -364,7 +364,7 @@ function Navbar() {
                 <DialogTitle fontWeight={700}>Đăng xuất?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Bạn có chắc muốn đăng xuất khỏi tài khoản ReFoodVN?
+                        Bạn có chắc muốn đăng xuất khỏi tài khoản ReFood?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

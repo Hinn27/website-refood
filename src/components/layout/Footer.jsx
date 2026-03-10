@@ -59,7 +59,7 @@ function Footer() {
                                     backgroundClip: "text",
                                 }}
                             >
-                                ReFoodVN
+                                ReFood
                             </Typography>
                         </Stack>
                         <Typography
@@ -159,7 +159,7 @@ function Footer() {
                                     variant="body2"
                                     sx={{ color: "#B0B0B0" }}
                                 >
-                                    contact@refoodvn.org
+                                    contact@refood.org
                                 </Typography>
                             </Stack>
                             <Stack
@@ -194,7 +194,7 @@ function Footer() {
                     spacing={1}
                 >
                     <Typography variant="body2" sx={{ color: "#888" }}>
-                        © 2026 ReFoodVN. All rights reserved.
+                        © 2026 ReFood. All rights reserved.
                     </Typography>
                     <Typography
                         variant="body2"

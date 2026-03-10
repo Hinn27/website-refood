@@ -84,7 +84,7 @@ function HeroSection() {
                             backgroundClip: "text",
                         }}
                     >
-                        ReFoodVN
+                        ReFood
                     </Typography>
                     <Typography
                         variant="h4"
