@@ -126,8 +126,11 @@ function Navbar() {
                         {!isMobile && (
                             <Stack
                                 direction="row"
-                                spacing={1}
-                                sx={{ flexGrow: 1 }}
+                                spacing={2}
+                                sx={{
+                                    flexGrow: 1,
+                                    justifyContent: "center",
+                                }}
                             >
                                 {navLinks.map((link) => (
                                     <Button
