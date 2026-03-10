@@ -204,7 +204,7 @@ function Footer() {
                     >
                         Made with{" "}
                         <FavoriteIcon sx={{ fontSize: 14, color: "#E8651A" }} />{" "}
-                        by ReFoodVN Team
+                        by ReFood Corp
                     </Typography>
                 </Stack>
             </Container>

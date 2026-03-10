@@ -6,6 +6,7 @@ import {
     Box,
     Button,
     Card,
+    CardActionArea,
     CardContent,
     CardMedia,
     Chip,
@@ -15,6 +16,8 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 const nightMeals = [
     {
@@ -74,6 +77,17 @@ const nightMeals = [
 ];
 
 function NightMealSection() {
+    const { addItem } = useCart();
+
+    const handleAddToCart = (meal) => {
+        addItem({
+            _id: meal._id,
+            name: meal.name,
+            price: meal.price,
+            image: meal.image,
+        });
+    };
+
     return (
         <Box
             id="night-meal"
@@ -122,7 +136,8 @@ function NightMealSection() {
                         variant="outlined"
                         color="primary"
                         size="large"
-                        href="/menu"
+                        component={RouterLink}
+                        to="/menu"
                     >
                         Xem tất cả →
                     </Button>
@@ -157,13 +172,18 @@ function NightMealSection() {
                                         "& .MuiChip-icon": { color: "#fff" },
                                     }}
                                 />
-                                <CardMedia
-                                    component="img"
-                                    height="200"
-                                    image={meal.image}
-                                    alt={meal.name}
-                                    sx={{ objectFit: "cover" }}
-                                />
+                                <CardActionArea
+                                    component={RouterLink}
+                                    to={`/product/${meal._id}`}
+                                >
+                                    <CardMedia
+                                        component="img"
+                                        height="200"
+                                        image={meal.image}
+                                        alt={meal.name}
+                                        sx={{ objectFit: "cover" }}
+                                    />
+                                </CardActionArea>
                                 <CardContent sx={{ flexGrow: 1, pb: 1 }}>
                                     <Typography
                                         variant="h6"
@@ -216,6 +236,9 @@ function NightMealSection() {
                                         </Box>
                                         <IconButton
                                             color="primary"
+                                            onClick={() =>
+                                                handleAddToCart(meal)
+                                            }
                                             sx={{
                                                 bgcolor: "primary.main",
                                                 color: "#fff",

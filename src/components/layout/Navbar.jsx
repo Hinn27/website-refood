@@ -2,13 +2,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import {
     AppBar,
+    Badge,
     Box,
     Button,
     Container,
@@ -27,20 +31,31 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
 import { useThemeMode } from "../../context/ThemeContext";
 
 const navLinks = [
-    { label: "Suất Ăn Đêm", href: "#night-meal", icon: <NightsStayIcon /> },
-    { label: "Quán Ăn 0 Đồng", href: "#zero-dong", icon: <StorefrontIcon /> },
+    {
+        label: "Thực Đơn",
+        href: "/menu",
+        icon: <RestaurantMenuIcon />,
+        isRoute: true,
+    },
+    { label: "Suất Ăn Đêm", href: "/#night-meal", icon: <NightsStayIcon /> },
+    { label: "Quán Ăn 0 Đồng", href: "/#zero-dong", icon: <StorefrontIcon /> },
     {
         label: "Thiện Nguyện",
-        href: "#volunteer",
+        href: "/#volunteer",
         icon: <VolunteerActivismIcon />,
     },
 ];
 
 function Navbar() {
     const { mode, toggleTheme } = useThemeMode();
+    const { user, isAuthenticated, logout } = useAuth();
+    const { totalItems } = useCart();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -99,7 +114,12 @@ function Navbar() {
                                 {navLinks.map((link) => (
                                     <Button
                                         key={link.label}
-                                        href={link.href}
+                                        {...(link.isRoute
+                                            ? {
+                                                  component: RouterLink,
+                                                  to: link.href,
+                                              }
+                                            : { href: link.href })}
                                         startIcon={link.icon}
                                         sx={{
                                             color: "text.primary",
@@ -137,22 +157,65 @@ function Navbar() {
                                 )}
                             </IconButton>
 
-                            {!isMobile && (
-                                <Button
-                                    variant="contained"
-                                    startIcon={<LoginIcon />}
-                                    href="/login"
-                                    sx={{
-                                        background:
-                                            "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
-                                        "&:hover": {
-                                            background:
-                                                "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
-                                        },
-                                    }}
+                            {/* Cart icon */}
+                            <IconButton
+                                component={RouterLink}
+                                to="/cart"
+                                sx={{ color: "text.primary" }}
+                            >
+                                <Badge
+                                    badgeContent={totalItems}
+                                    color="primary"
+                                    max={99}
                                 >
-                                    Đăng Nhập
-                                </Button>
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
+
+                            {!isMobile && (
+                                <>
+                                    {isAuthenticated ? (
+                                        <Stack
+                                            direction="row"
+                                            spacing={1}
+                                            alignItems="center"
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                fontWeight={600}
+                                                color="text.secondary"
+                                            >
+                                                Xin chào,{" "}
+                                                {user?.name?.split(" ").pop()}
+                                            </Typography>
+                                            <Button
+                                                variant="outlined"
+                                                startIcon={<LogoutIcon />}
+                                                onClick={logout}
+                                                size="small"
+                                            >
+                                                Đăng Xuất
+                                            </Button>
+                                        </Stack>
+                                    ) : (
+                                        <Button
+                                            variant="contained"
+                                            startIcon={<LoginIcon />}
+                                            component={RouterLink}
+                                            to="/login"
+                                            sx={{
+                                                background:
+                                                    "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
+                                                "&:hover": {
+                                                    background:
+                                                        "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
+                                                },
+                                            }}
+                                        >
+                                            Đăng Nhập
+                                        </Button>
+                                    )}
+                                </>
                             )}
 
                             {isMobile && (
@@ -213,22 +276,59 @@ function Navbar() {
                 </List>
                 <Divider />
                 <Box sx={{ p: 2 }}>
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        startIcon={<LoginIcon />}
-                        href="/login"
-                        sx={{
-                            background:
-                                "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
-                            "&:hover": {
-                                background:
-                                    "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
-                            },
-                        }}
-                    >
-                        Đăng Nhập
-                    </Button>
+                    {isAuthenticated ? (
+                        <Stack spacing={1}>
+                            <Typography
+                                variant="body2"
+                                fontWeight={600}
+                                textAlign="center"
+                            >
+                                Xin chào, {user?.name}
+                            </Typography>
+                            <Button
+                                variant="outlined"
+                                fullWidth
+                                startIcon={<LogoutIcon />}
+                                onClick={() => {
+                                    logout();
+                                    setDrawerOpen(false);
+                                }}
+                            >
+                                Đăng Xuất
+                            </Button>
+                        </Stack>
+                    ) : (
+                        <Stack spacing={1}>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                startIcon={<LoginIcon />}
+                                component={RouterLink}
+                                to="/login"
+                                onClick={() => setDrawerOpen(false)}
+                                sx={{
+                                    background:
+                                        "linear-gradient(135deg, #E8651A 0%, #FF8A3D 100%)",
+                                    "&:hover": {
+                                        background:
+                                            "linear-gradient(135deg, #B84D10 0%, #E8651A 100%)",
+                                    },
+                                }}
+                            >
+                                Đăng Nhập
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                fullWidth
+                                component={RouterLink}
+                                to="/register"
+                                onClick={() => setDrawerOpen(false)}
+                                color="secondary"
+                            >
+                                Đăng Ký
+                            </Button>
+                        </Stack>
+                    )}
                 </Box>
             </Drawer>
         </>
