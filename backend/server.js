@@ -52,7 +52,13 @@ app.get('/api/products', async (req, res) => {
             ORDER BY p.id ASC
         `;
         const products = await query(sql);
-        res.json(products);
+        // Convert BigInt fields to string for JSON serialization
+        const safeProducts = products.map(item =>
+            Object.fromEntries(
+                Object.entries(item).map(([k, v]) => [k, typeof v === "bigint" ? v.toString() : v])
+            )
+        );
+        res.json(safeProducts);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
