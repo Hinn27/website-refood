@@ -27,6 +27,7 @@ import { allMeals } from "../../utils/mealsData";
 import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
 import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
+import CardMediaSkeleton from "../common/CardMediaSkeleton";
 
 const categories = [
     { label: "Tất cả", value: "all" },
