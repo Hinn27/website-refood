@@ -16,13 +16,14 @@ import {
     Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import AnimatedSection from "../components/common/AnimatedSection";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
@@ -39,14 +40,21 @@ function Login() {
             setError("Vui lòng nhập đầy đủ email và mật khẩu");
             return;
         }
-        // Mock login — thay bằng API call thực tế
+        
+        // Mock login logic
+        const role = form.email.includes("admin") ? "admin" : "user";
+        const name = role === "admin" ? "Quản trị viên ReFood" : "Người dùng ReFood";
+
         login({
-            id: "1",
-            name: "Người dùng ReFood",
+            id: role === "admin" ? "admin-1" : "user-1",
+            name: name,
             email: form.email,
-            role: "user",
+            role: role,
         });
-        navigate("/");
+        
+        // Quay về trang trước đó hoặc trang chủ
+        const from = location.state?.from?.pathname || "/";
+        navigate(from, { replace: true });
     };
 
     return (
@@ -159,6 +167,30 @@ function Login() {
                                 </Button>
                             </Stack>
                         </Box>
+
+                        <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+                            <Button
+                                size="small"
+                                variant="outlined"
+                                onClick={() => {
+                                    setForm({ email: "user@refood.vn", password: "password" });
+                                }}
+                                sx={{ flex: 1, fontSize: "0.7rem" }}
+                            >
+                                Demo User
+                            </Button>
+                            <Button
+                                size="small"
+                                variant="outlined"
+                                color="secondary"
+                                onClick={() => {
+                                    setForm({ email: "admin@refood.vn", password: "password" });
+                                }}
+                                sx={{ flex: 1, fontSize: "0.7rem" }}
+                            >
+                                Demo Admin
+                            </Button>
+                        </Stack>
 
                         <Divider sx={{ my: 3 }}>
                             <Typography variant="body2" color="text.secondary">

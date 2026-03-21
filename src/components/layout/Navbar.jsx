@@ -10,6 +10,10 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import HistoryIcon from "@mui/icons-material/History";
+import PersonIcon from "@mui/icons-material/Person";
 import {
     AppBar,
     Badge,
@@ -28,6 +32,8 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Menu,
+    MenuItem,
     Stack,
     Toolbar,
     Tooltip,
@@ -66,9 +72,20 @@ function Navbar() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [logoutDialog, setLogoutDialog] = useState(false);
 
+    const [userMenuAnchor, setUserMenuAnchor] = useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setUserMenuAnchor(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setUserMenuAnchor(null);
+    };
+
     const handleLogout = () => {
         logout();
         setLogoutDialog(false);
+        handleCloseUserMenu();
     };
 
     return (
@@ -210,30 +227,90 @@ function Navbar() {
                             {!isMobile && (
                                 <>
                                     {isAuthenticated ? (
-                                        <Stack
-                                            direction="row"
-                                            spacing={1}
-                                            alignItems="center"
-                                        >
-                                            <Typography
-                                                variant="body2"
-                                                fontWeight={600}
-                                                color="text.secondary"
+                                        <>
+                                            <Tooltip title="Tài khoản">
+                                                <IconButton
+                                                    onClick={handleOpenUserMenu}
+                                                    sx={{
+                                                        p: 0.5,
+                                                        border: "2px solid",
+                                                        borderColor: "primary.main",
+                                                    }}
+                                                >
+                                                    <AccountCircleIcon color="primary" />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Menu
+                                                sx={{ mt: "45px" }}
+                                                id="menu-appbar"
+                                                anchorEl={userMenuAnchor}
+                                                anchorOrigin={{
+                                                    vertical: "top",
+                                                    horizontal: "right",
+                                                }}
+                                                keepMounted
+                                                transformOrigin={{
+                                                    vertical: "top",
+                                                    horizontal: "right",
+                                                }}
+                                                open={Boolean(userMenuAnchor)}
+                                                onClose={handleCloseUserMenu}
                                             >
-                                                Xin chào,{" "}
-                                                {user?.name?.split(" ").pop()}
-                                            </Typography>
-                                            <Button
-                                                variant="outlined"
-                                                startIcon={<LogoutIcon />}
-                                                onClick={() =>
-                                                    setLogoutDialog(true)
-                                                }
-                                                size="small"
-                                            >
-                                                Đăng Xuất
-                                            </Button>
-                                        </Stack>
+                                                <Box sx={{ px: 2, py: 1 }}>
+                                                    <Typography variant="subtitle2" fontWeight={700}>
+                                                        {user?.name}
+                                                    </Typography>
+                                                    <Typography variant="caption" color="text.secondary">
+                                                        {user?.email}
+                                                    </Typography>
+                                                </Box>
+                                                <Divider />
+                                                {user?.role === "admin" && (
+                                                    <MenuItem
+                                                        component={RouterLink}
+                                                        to="/admin"
+                                                        onClick={handleCloseUserMenu}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <DashboardIcon fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText>Dashboard Admin</ListItemText>
+                                                    </MenuItem>
+                                                )}
+                                                <MenuItem
+                                                    component={RouterLink}
+                                                    to="/profile"
+                                                    onClick={handleCloseUserMenu}
+                                                >
+                                                    <ListItemIcon>
+                                                        <PersonIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Hồ sơ cá nhân</ListItemText>
+                                                </MenuItem>
+                                                <MenuItem
+                                                    component={RouterLink}
+                                                    to="/orders"
+                                                    onClick={handleCloseUserMenu}
+                                                >
+                                                    <ListItemIcon>
+                                                        <HistoryIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Lịch sử đơn hàng</ListItemText>
+                                                </MenuItem>
+                                                <Divider />
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setLogoutDialog(true);
+                                                        handleCloseUserMenu();
+                                                    }}
+                                                >
+                                                    <ListItemIcon>
+                                                        <LogoutIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText>Đăng xuất</ListItemText>
+                                                </MenuItem>
+                                            </Menu>
+                                        </>
                                     ) : (
                                         <Button
                                             variant="contained"
@@ -315,13 +392,54 @@ function Navbar() {
                 <Box sx={{ p: 2 }}>
                     {isAuthenticated ? (
                         <Stack spacing={1}>
-                            <Typography
-                                variant="body2"
-                                fontWeight={600}
-                                textAlign="center"
-                            >
-                                Xin chào, {user?.name}
-                            </Typography>
+                            <Box sx={{ mb: 2, textAlign: "center" }}>
+                                <Typography variant="h6" fontWeight={700}>
+                                    {user?.name}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {user?.email}
+                                </Typography>
+                            </Box>
+                            <List>
+                                {user?.role === "admin" && (
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            component={RouterLink}
+                                            to="/admin"
+                                            onClick={() => setDrawerOpen(false)}
+                                        >
+                                            <ListItemIcon>
+                                                <DashboardIcon color="primary" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Dashboard Admin" />
+                                        </ListItemButton>
+                                    </ListItem>
+                                )}
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        component={RouterLink}
+                                        to="/profile"
+                                        onClick={() => setDrawerOpen(false)}
+                                    >
+                                        <ListItemIcon>
+                                            <PersonIcon color="primary" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Hồ sơ cá nhân" />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        component={RouterLink}
+                                        to="/orders"
+                                        onClick={() => setDrawerOpen(false)}
+                                    >
+                                        <ListItemIcon>
+                                            <HistoryIcon color="primary" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Lịch sử đơn hàng" />
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
                             <Button
                                 variant="outlined"
                                 fullWidth
@@ -330,6 +448,7 @@ function Navbar() {
                                     setLogoutDialog(true);
                                     setDrawerOpen(false);
                                 }}
+                                sx={{ mt: 2 }}
                             >
                                 Đăng Xuất
                             </Button>

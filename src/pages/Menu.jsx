@@ -28,7 +28,7 @@ import AnimatedSection from "../components/common/AnimatedSection";
 import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
-import { allMeals } from "./ProductDetail";
+import { allMeals } from "../utils/mealsData";
 
 const categories = ["Tất cả", "Bún/Phở", "Cơm", "Bánh mì", "Cơm/Đồ ăn"];
 
@@ -40,7 +40,6 @@ function Menu() {
     const itemsPerPage = 8;
 
     const filteredMeals = useMemo(() => {
-        setPage(1);
         return allMeals.filter((meal) => {
             const matchSearch = meal.name
                 .toLowerCase()
@@ -50,6 +49,18 @@ function Menu() {
             return matchSearch && matchCategory;
         });
     }, [search, category]);
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        setPage(1);
+    };
+
+    const handleCategoryChange = (e, val) => {
+        if (val) {
+            setCategory(val);
+            setPage(1);
+        }
+    };
 
     const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
     const paginatedMeals = filteredMeals.slice(
@@ -108,7 +119,7 @@ function Menu() {
                     <TextField
                         placeholder="Tìm món ăn..."
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={handleSearchChange}
                         sx={{ minWidth: { md: 320 } }}
                         slotProps={{
                             input: {
@@ -123,7 +134,7 @@ function Menu() {
                     <ToggleButtonGroup
                         value={category}
                         exclusive
-                        onChange={(e, val) => val && setCategory(val)}
+                        onChange={handleCategoryChange}
                         size="small"
                         sx={{
                             flexWrap: "wrap",
@@ -195,6 +206,7 @@ function Menu() {
                                         display: "flex",
                                         flexDirection: "column",
                                         position: "relative",
+                                        overflow: "hidden",
                                     }}
                                 >
                                     <Chip

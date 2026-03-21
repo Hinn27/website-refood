@@ -23,13 +23,9 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { allMeals } from "../../pages/ProductDetail";
-import AnimatedSection, {
-    MotionBox,
-    staggerContainer,
-    staggerItem,
-} from "../common/AnimatedSection";
-import CardMediaSkeleton from "../common/CardMediaSkeleton";
+import { allMeals } from "../../utils/mealsData";
+import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
+import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
 
 const categories = [
@@ -189,7 +185,7 @@ function MenuSection() {
                                         display: "flex",
                                         flexDirection: "column",
                                         position: "relative",
-                                        overflow: "visible",
+                                        overflow: "hidden",
                                     }}
                                 >
                                     {/* Tag */}

@@ -25,12 +25,8 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import AnimatedSection, {
-    MotionBox,
-    staggerContainer,
-    staggerItem,
-} from "../common/AnimatedSection";
-import CardMediaSkeleton from "../common/CardMediaSkeleton";
+import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
+import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
 
 const quanAn0dMeals = [
@@ -214,7 +210,7 @@ function QuanAn0dSection() {
                                         display: "flex",
                                         flexDirection: "column",
                                         position: "relative",
-                                        overflow: "visible",
+                                        overflow: "hidden",
                                     }}
                                 >
                                     {/* Tag */}

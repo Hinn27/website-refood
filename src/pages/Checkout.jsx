@@ -22,7 +22,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import AnimatedSection from "../components/common/AnimatedSection";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useAuth } from "../context/AuthContext";
@@ -31,11 +31,11 @@ import { useCart } from "../context/CartContext";
 const steps = ["Thông tin giao hàng", "Thanh toán", "Hoàn tất"];
 
 function Checkout() {
-    const navigate = useNavigate();
     const { items, totalPrice, clearCart } = useCart();
     const { user } = useAuth();
     const [activeStep, setActiveStep] = useState(0);
     const [error, setError] = useState("");
+    const [orderId, setOrderId] = useState("");
 
     const [shippingInfo, setShippingInfo] = useState({
         name: user?.name || "",
@@ -69,7 +69,8 @@ function Checkout() {
     const handleBack = () => setActiveStep((prev) => prev - 1);
 
     const handlePlaceOrder = () => {
-        // Mock order — thay bằng API
+        // Mock order logic
+        setOrderId(`RF${Date.now().toString().slice(-6)}`);
         setActiveStep(2);
         clearCart();
     };
@@ -412,8 +413,7 @@ function Checkout() {
                             fontWeight={600}
                             sx={{ mb: 4 }}
                         >
-                            Mã đơn hàng: #RF
-                            {Date.now().toString().slice(-6)}
+                            Mã đơn hàng: #{orderId}
                         </Typography>
                         <Stack
                             direction={{ xs: "column", sm: "row" }}

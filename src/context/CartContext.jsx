@@ -78,14 +78,20 @@ export function CartProvider({ children }) {
         setSnackbar((prev) => ({ ...prev, open: false }));
     }, []);
 
-    const addItem = (item) => {
+    const addItem = useCallback((item) => {
         dispatch({ type: "ADD_ITEM", payload: item });
         showSnackbar(`Đã thêm "${item.name}" vào giỏ hàng!`);
-    };
-    const removeItem = (id) => dispatch({ type: "REMOVE_ITEM", payload: id });
-    const updateQuantity = (_id, quantity) =>
-        dispatch({ type: "UPDATE_QUANTITY", payload: { _id, quantity } });
-    const clearCart = () => dispatch({ type: "CLEAR_CART" });
+    }, [showSnackbar]);
+    const removeItem = useCallback(
+        (id) => dispatch({ type: "REMOVE_ITEM", payload: id }),
+        []
+    );
+    const updateQuantity = useCallback(
+        (_id, quantity) =>
+            dispatch({ type: "UPDATE_QUANTITY", payload: { _id, quantity } }),
+        []
+    );
+    const clearCart = useCallback(() => dispatch({ type: "CLEAR_CART" }), []);
 
     const totalItems = useMemo(
         () => state.items.reduce((sum, item) => sum + item.quantity, 0),
@@ -112,7 +118,17 @@ export function CartProvider({ children }) {
             snackbar,
             closeSnackbar,
         }),
-        [state.items, totalItems, totalPrice, snackbar, closeSnackbar]
+        [
+            state.items,
+            totalItems,
+            totalPrice,
+            snackbar,
+            addItem,
+            removeItem,
+            updateQuantity,
+            clearCart,
+            closeSnackbar,
+        ]
     );
 
     return (
@@ -127,5 +143,3 @@ export const useCart = () => {
     }
     return context;
 };
-
-export default CartContext;
