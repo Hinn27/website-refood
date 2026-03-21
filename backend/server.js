@@ -14,7 +14,8 @@ async function query(sql, params) {
     try {
         conn = await pool.getConnection();
         const res = await conn.query(sql, params);
-        return res;
+        // MariaDB connector returns results as an array, but we need to handle potential non-array results
+        return Array.isArray(res) ? res : [res];
     } finally {
         if (conn) conn.release();
     }
@@ -24,11 +25,10 @@ async function query(sql, params) {
 query('SELECT 1')
     .then(res => {
         console.log('Kết nối MariaDB thành công:', res);
-        process.exit(0);
     })
     .catch(err => {
         console.error('Kết nối MariaDB thất bại:', err);
-        process.exit(1);
+        // process.exit(1);
     });
 
 // hien thi mon an

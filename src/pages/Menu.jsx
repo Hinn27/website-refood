@@ -28,16 +28,32 @@ import AnimatedSection from "../components/common/AnimatedSection";
 import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
+import { useMeals } from "../context/useMeals";
 
 const categories = ["Tất cả", "Bún/Phở", "Cơm", "Bánh mì", "Cơm/Đồ ăn"];
 
 function Menu() {
     const { addItem } = useCart();
-    const { meals: allMeals, loading } = useMeals();
+    const { meals: allMeals, loading, error } = useMeals();
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("Tất cả");
     const [page, setPage] = useState(1);
     const itemsPerPage = 8;
+
+    if (error) {
+        return (
+            <SectionLayout variant="wide">
+                <Box sx={{ textAlign: 'center', py: 8 }}>
+                    <Typography variant="h5" color="error" gutterBottom>
+                        Không thể tải danh sách món ăn
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                        Lỗi: {error}. Vui lòng kiểm tra kết nối với Backend API.
+                    </Typography>
+                </Box>
+            </SectionLayout>
+        );
+    }
 
     const filteredMeals = useMemo(() => {
         if (loading) return [];
@@ -64,10 +80,12 @@ function Menu() {
     };
 
     const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
-    const paginatedMeals = filteredMeals.slice(
-        (page - 1) * itemsPerPage,
-        page * itemsPerPage
-    );
+    const paginatedMeals = loading 
+        ? [...Array(8)] 
+        : filteredMeals.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+        );
 
     const handlePageChange = (event, value) => {
         setPage(value);
@@ -169,12 +187,22 @@ function Menu() {
 
             {/* Results count */}
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Tìm thấy <strong>{filteredMeals.length}</strong> món ăn
+                {loading ? "Đang tải món ăn..." : (
+                    <>Tìm thấy <strong>{filteredMeals.length}</strong> món ăn</>
+                )}
             </Typography>
 
             {/* Meals grid */}
             <AnimatedSection variant="fadeUp" delay={0.25}>
-                {filteredMeals.length === 0 ? (
+                {loading ? (
+                    <Grid container spacing={3}>
+                        {paginatedMeals.map((_, index) => (
+                            <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                                <CardMediaSkeleton />
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : filteredMeals.length === 0 ? (
                     <Box
                         sx={{
                             textAlign: "center",

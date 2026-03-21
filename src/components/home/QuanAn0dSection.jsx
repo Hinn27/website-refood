@@ -29,7 +29,7 @@ import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
 import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
 import CardMediaSkeleton from "../common/CardMediaSkeleton";
-import { useMeals } from "../../context/MealsContext";
+import { useMeals } from "../../context/useMeals";
 
 const zeroDongRestaurants = [
     {
@@ -76,11 +76,13 @@ const zeroDongRestaurants = [
 
 function QuanAn0dSection() {
     const { addItem } = useCart();
-    const { meals, loading } = useMeals();
+    const { meals, loading, error } = useMeals();
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
 
     if (loading) return null;
+
+    if (error) return null; // Tránh hiển thị lỗi trùng lặp với MenuSection ở ngay trên
 
     // Use top 6 meals for 0đ section
     const quanAn0dMeals = meals.slice(0, 6).map(meal => ({

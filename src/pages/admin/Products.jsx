@@ -21,8 +21,7 @@ import {
 } from "@mui/material";
 import AnimatedSection from "../../components/common/AnimatedSection";
 import SectionLayout from "../../components/layout/SectionLayout";
-import { useMeals } from "../../context/MealsContext";
-// import { allMeals } from "../../utils/mealsData";
+import { useMeals } from "../../context/useMeals";
 
 function Products() {
     const { meals: allMeals, loading, seedDatabase, deleteMeal } = useMeals();

@@ -22,13 +22,42 @@ import AnimatedSection from "../components/common/AnimatedSection";
 import SectionLayout from "../components/layout/SectionLayout";
 import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import { useCart } from "../context/CartContext";
+import { useMeals } from "../context/useMeals";
 
 function ProductDetail() {
     const { id } = useParams();
     const { addItem } = useCart();
-    const { meals: allMeals, loading } = useMeals();
+    const { meals: allMeals, loading, error } = useMeals();
 
-    if (loading) return null;
+    if (loading) {
+        return (
+            <SectionLayout>
+                <Grid container spacing={4} sx={{ mt: 2 }}>
+                    <Grid item xs={12} md={6}>
+                        <CardMediaSkeleton sx={{ aspectRatio: "1/1", borderRadius: 4 }} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <CardMediaSkeleton sx={{ height: 40, width: '60%' }} />
+                            <CardMediaSkeleton sx={{ height: 30, width: '30%' }} />
+                            <CardMediaSkeleton sx={{ height: 100, width: '100%' }} />
+                            <CardMediaSkeleton sx={{ height: 50, width: '40%' }} />
+                        </Box>
+                    </Grid>
+                </Grid>
+            </SectionLayout>
+        );
+    }
+
+    if (error) {
+        return (
+            <SectionLayout>
+                <Typography variant="h6" color="error">
+                    Lỗi tải thông tin sản phẩm: {error}
+                </Typography>
+            </SectionLayout>
+        );
+    }
 
     const meal = allMeals.find((m) => String(m._id) === String(id));
 
@@ -69,10 +98,7 @@ function ProductDetail() {
     };
 
     return (
-        <SectionLayout
-            bgcolor="background.default"
-            sx={{ py: { xs: 4, md: 6 } }}
-        >
+        <SectionLayout bgcolor="background.default" sx={{ py: { xs: 4, md: 6 } }}>
             {/* Breadcrumbs */}
             <Breadcrumbs
                 separator={<NavigateNextIcon fontSize="small" />}
@@ -107,7 +133,7 @@ function ProductDetail() {
 
             <Grid container spacing={4}>
                 {/* Image */}
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid item xs={12} md={6}>
                     <AnimatedSection variant="fadeRight" delay={0.1}>
                         <Box
                             sx={{
@@ -126,25 +152,27 @@ function ProductDetail() {
                                     objectFit: "cover",
                                 }}
                             />
-                            <Chip
-                                label={meal.tag}
-                                icon={<LocalFireDepartmentIcon />}
-                                sx={{
-                                    position: "absolute",
-                                    top: 16,
-                                    left: 16,
-                                    bgcolor: "primary.main",
-                                    color: "#fff",
-                                    fontWeight: 700,
-                                    "& .MuiChip-icon": { color: "#fff" },
-                                }}
-                            />
+                            {meal.tag && (
+                                <Chip
+                                    label={meal.tag}
+                                    icon={<LocalFireDepartmentIcon />}
+                                    sx={{
+                                        position: "absolute",
+                                        top: 16,
+                                        left: 16,
+                                        bgcolor: "primary.main",
+                                        color: "#fff",
+                                        fontWeight: 700,
+                                        "& .MuiChip-icon": { color: "#fff" },
+                                    }}
+                                />
+                            )}
                         </Box>
                     </AnimatedSection>
                 </Grid>
 
                 {/* Details */}
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid item xs={12} md={6}>
                     <AnimatedSection variant="fadeLeft" delay={0.2}>
                         <Stack spacing={2}>
                             <Box>
@@ -157,26 +185,26 @@ function ProductDetail() {
                                     alignItems="center"
                                     sx={{ mt: 1 }}
                                 >
-                                    <Chip
-                                        label={meal.category}
-                                        size="small"
-                                        variant="outlined"
-                                    />
-                                    <Chip
-                                        label={meal.origin}
-                                        size="small"
-                                        variant="outlined"
-                                        color="secondary"
-                                    />
+                                    {meal.category && (
+                                        <Chip
+                                            label={meal.category}
+                                            size="small"
+                                            variant="outlined"
+                                        />
+                                    )}
+                                    {meal.origin && (
+                                        <Chip
+                                            label={meal.origin}
+                                            size="small"
+                                            variant="outlined"
+                                            color="secondary"
+                                        />
+                                    )}
                                 </Stack>
                             </Box>
 
                             {/* Rating */}
-                            <Stack
-                                direction="row"
-                                spacing={1}
-                                alignItems="center"
-                            >
+                            <Stack direction="row" spacing={1} alignItems="center">
                                 <StarIcon sx={{ color: "#FFB400" }} />
                                 <Typography fontWeight={700}>
                                     {meal.rating}
@@ -205,64 +233,30 @@ function ProductDetail() {
                             </Typography>
 
                             {/* Info chips */}
-                            <Stack
-                                direction="row"
-                                spacing={2}
-                                flexWrap="wrap"
-                                useFlexGap
-                            >
+                            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+                                {meal.time && (
+                                    <Card
+                                        variant="outlined"
+                                        sx={{ px: 2, py: 1, borderRadius: 2 }}
+                                    >
+                                        <Stack direction="row" spacing={1} alignItems="center">
+                                            <AccessTimeIcon fontSize="small" color="primary" />
+                                            <Typography variant="body2" fontWeight={600}>
+                                                {meal.time}
+                                            </Typography>
+                                        </Stack>
+                                    </Card>
+                                )}
                                 <Card
                                     variant="outlined"
                                     sx={{ px: 2, py: 1, borderRadius: 2 }}
                                 >
-                                    <Stack
-                                        direction="row"
-                                        spacing={1}
-                                        alignItems="center"
-                                    >
-                                        <AccessTimeIcon
-                                            fontSize="small"
-                                            color="primary"
-                                        />
-                                        <Typography
-                                            variant="body2"
-                                            fontWeight={600}
-                                        >
-                                            {meal.time}
-                                        </Typography>
-                                    </Stack>
-                                </Card>
-                                <Card
-                                    variant="outlined"
-                                    sx={{ px: 2, py: 1, borderRadius: 2 }}
-                                >
-                                    <Stack
-                                        direction="row"
-                                        spacing={1}
-                                        alignItems="center"
-                                    >
-                                        <DeliveryDiningIcon
-                                            fontSize="small"
-                                            color="secondary"
-                                        />
-                                        <Typography
-                                            variant="body2"
-                                            fontWeight={600}
-                                        >
+                                    <Stack direction="row" spacing={1} alignItems="center">
+                                        <DeliveryDiningIcon fontSize="small" color="secondary" />
+                                        <Typography variant="body2" fontWeight={600}>
                                             Giao miễn phí
                                         </Typography>
                                     </Stack>
-                                </Card>
-                                <Card
-                                    variant="outlined"
-                                    sx={{ px: 2, py: 1, borderRadius: 2 }}
-                                >
-                                    <Typography
-                                        variant="body2"
-                                        fontWeight={600}
-                                    >
-                                        🔥 {meal.calories}
-                                    </Typography>
                                 </Card>
                             </Stack>
 

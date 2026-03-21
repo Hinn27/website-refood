@@ -23,7 +23,7 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { useMeals } from "../../context/MealsContext";
+import { useMeals } from "../../context/useMeals";
 import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
 import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
@@ -39,12 +39,41 @@ const categories = [
 
 function MenuSection() {
     const { addItem } = useCart();
-    const { meals: allMeals, loading } = useMeals();
+    const { meals: allMeals, loading, error } = useMeals();
     const [activeCategory, setActiveCategory] = useState("all");
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
 
-    if (loading) return null;
+    if (loading) {
+        return (
+            <SectionLayout id="menu">
+                <Box sx={{ py: 8 }}>
+                    <Grid container spacing={4}>
+                        {[...Array(8)].map((_, index) => (
+                            <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                                <CardMediaSkeleton />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            </SectionLayout>
+        );
+    }
+
+    if (error) {
+        return (
+            <SectionLayout id="menu">
+                <Box sx={{ textAlign: 'center', py: 8 }}>
+                    <Typography variant="h5" color="error" gutterBottom>
+                        Không thể tải danh sách món ăn
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                        Lỗi: {error}. Vui lòng kiểm tra kết nối với Backend API.
+                    </Typography>
+                </Box>
+            </SectionLayout>
+        );
+    }
 
     const filteredMeals =
         activeCategory === "all"
