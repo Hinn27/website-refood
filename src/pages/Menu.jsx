@@ -28,8 +28,6 @@ import AnimatedSection from "../components/common/AnimatedSection";
 import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
-import { useMeals } from "../context/MealsContext";
-// import { allMeals } from "../utils/mealsData";
 
 const categories = ["Tất cả", "Bún/Phở", "Cơm", "Bánh mì", "Cơm/Đồ ăn"];
 

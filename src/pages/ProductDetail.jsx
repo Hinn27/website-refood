@@ -22,8 +22,6 @@ import AnimatedSection from "../components/common/AnimatedSection";
 import SectionLayout from "../components/layout/SectionLayout";
 import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import { useCart } from "../context/CartContext";
-import { useMeals } from "../context/MealsContext";
-// import { allMeals } from "../utils/mealsData";
 
 function ProductDetail() {
     const { id } = useParams();
