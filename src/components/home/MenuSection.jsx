@@ -23,7 +23,7 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { allMeals } from "../../utils/mealsData";
+import { useMeals } from "../../context/MealsContext";
 import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
 import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
@@ -39,9 +39,12 @@ const categories = [
 
 function MenuSection() {
     const { addItem } = useCart();
+    const { meals: allMeals, loading } = useMeals();
     const [activeCategory, setActiveCategory] = useState("all");
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
+
+    if (loading) return null;
 
     const filteredMeals =
         activeCategory === "all"

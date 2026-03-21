@@ -28,18 +28,21 @@ import AnimatedSection from "../components/common/AnimatedSection";
 import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
-import { allMeals } from "../utils/mealsData";
+import { useMeals } from "../context/MealsContext";
+// import { allMeals } from "../utils/mealsData";
 
 const categories = ["Tất cả", "Bún/Phở", "Cơm", "Bánh mì", "Cơm/Đồ ăn"];
 
 function Menu() {
     const { addItem } = useCart();
+    const { meals: allMeals, loading } = useMeals();
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("Tất cả");
     const [page, setPage] = useState(1);
     const itemsPerPage = 8;
 
     const filteredMeals = useMemo(() => {
+        if (loading) return [];
         return allMeals.filter((meal) => {
             const matchSearch = meal.name
                 .toLowerCase()

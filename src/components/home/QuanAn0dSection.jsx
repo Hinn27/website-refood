@@ -29,63 +29,7 @@ import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
 import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
 import CardMediaSkeleton from "../common/CardMediaSkeleton";
-
-const quanAn0dMeals = [
-    {
-        _id: "1",
-        name: "Phở Bò Gia Truyền",
-        price: 50000,
-        image: "/assets/images/food/pho-bo.jpg",
-        desc: "Nước dùng ninh xương 12 tiếng, thịt bò tái chín mềm",
-        time: "15 phút",
-        tag: "Bán chạy",
-    },
-    {
-        _id: "2",
-        name: "Bánh Mì Thịt Nướng",
-        price: 25000,
-        image: "/assets/images/food/banh-mi-thit.jpg",
-        desc: "Bánh mì giòn rụm, thịt nướng than hoa thơm lừng",
-        time: "10 phút",
-        tag: "Nhanh",
-    },
-    {
-        _id: "3",
-        name: "Cơm Tấm Sườn Nướng",
-        price: 45000,
-        image: "/assets/images/food/com-tam-suon-nuong.jpg",
-        desc: "Sườn nướng mắm, bì trộn, chả trứng, nước mắm pha",
-        time: "20 phút",
-        tag: "Đầy đủ",
-    },
-    {
-        _id: "4",
-        name: "Bún Bò Huế",
-        price: 55000,
-        image: "/assets/images/food/bun-bo-hue.jpg",
-        desc: "Bún bò cay nồng đặc trưng xứ Huế, giò heo mềm rục",
-        time: "18 phút",
-        tag: "Đặc sản",
-    },
-    {
-        _id: "5",
-        name: "Hủ Tiếu Nam Vang",
-        price: 40000,
-        image: "/assets/images/food/hu-tieu.jpg",
-        desc: "Hủ tiếu dai mềm, nước lèo trong, tôm thịt hải sản",
-        time: "15 phút",
-        tag: "Nhẹ bụng",
-    },
-    {
-        _id: "6",
-        name: "Bún Chả Hà Nội",
-        price: 45000,
-        image: "/assets/images/food/bun-cha.jpg",
-        desc: "Chả viên nướng than, bún tươi, nước chấm chua ngọt",
-        time: "20 phút",
-        tag: "Truyền thống",
-    },
-];
+import { useMeals } from "../../context/MealsContext";
 
 const zeroDongRestaurants = [
     {
@@ -132,14 +76,23 @@ const zeroDongRestaurants = [
 
 function QuanAn0dSection() {
     const { addItem } = useCart();
+    const { meals, loading } = useMeals();
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
+
+    if (loading) return null;
+
+    // Use top 6 meals for 0đ section
+    const quanAn0dMeals = meals.slice(0, 6).map(meal => ({
+        ...meal,
+        price: 0 // Đổi giá thành 0đ như yêu cầu
+    }));
 
     const handleAddToCart = (meal) => {
         addItem({
             _id: meal._id,
             name: meal.name,
-            price: meal.price,
+            price: 0, // Giá 0đ khi thêm vào giỏ hàng
             image: meal.image,
         });
     };

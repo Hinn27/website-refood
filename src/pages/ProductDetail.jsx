@@ -20,14 +20,19 @@ import {
 import { Link as RouterLink, useParams } from "react-router-dom";
 import AnimatedSection from "../components/common/AnimatedSection";
 import SectionLayout from "../components/layout/SectionLayout";
+import CardMediaSkeleton from "../components/common/CardMediaSkeleton";
 import { useCart } from "../context/CartContext";
-import { allMeals } from "../utils/mealsData";
+import { useMeals } from "../context/MealsContext";
+// import { allMeals } from "../utils/mealsData";
 
 function ProductDetail() {
     const { id } = useParams();
     const { addItem } = useCart();
+    const { meals: allMeals, loading } = useMeals();
 
-    const meal = allMeals.find((m) => m._id === id);
+    if (loading) return null;
+
+    const meal = allMeals.find((m) => String(m._id) === String(id));
 
     if (!meal) {
         return (
@@ -113,9 +118,9 @@ function ProductDetail() {
                                 position: "relative",
                             }}
                         >
-                            <Box
+                            <CardMediaSkeleton
                                 component="img"
-                                src={meal.image}
+                                image={meal.image}
                                 alt={meal.name}
                                 sx={{
                                     width: "100%",
