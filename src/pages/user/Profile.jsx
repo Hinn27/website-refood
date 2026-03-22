@@ -54,7 +54,15 @@ function Profile() {
             <Grid container spacing={4}>
                 <Grid size={{ xs: 12, md: 4 }}>
                     <AnimatedSection variant="fadeRight" delay={0.1}>
-                        <Card sx={{ textAlign: "center", py: 4 }}>
+                        <Card
+                            sx={{
+                                textAlign: "center",
+                                py: 4,
+                                borderRadius: 4,
+                                overflow: "hidden",
+                                position: "relative",
+                            }}
+                        >
                             <CardContent>
                                 <Avatar
                                     sx={{

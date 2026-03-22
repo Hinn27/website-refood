@@ -81,7 +81,14 @@ function Register() {
             }}
         >
             <AnimatedSection variant="scale" delay={0.1}>
-                <Card sx={{ p: { xs: 2, md: 4 } }}>
+                <Card
+                    sx={{
+                        p: { xs: 2, md: 4 },
+                        borderRadius: 4,
+                        overflow: "hidden",
+                        position: "relative",
+                    }}
+                >
                     <CardContent>
                         <Stack alignItems="center" spacing={1} sx={{ mb: 4 }}>
                             <RestaurantIcon

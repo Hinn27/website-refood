@@ -18,18 +18,14 @@ const mockOrders = [
         date: "2026-03-20 18:30",
         total: 100000,
         status: "Đã hoàn thành",
-        items: [
-            { name: "Phở Bò Gia Truyền", quantity: 2, price: 50000 },
-        ],
+        items: [{ name: "Phở Bò Gia Truyền", quantity: 2, price: 50000 }],
     },
     {
         id: "ORD-002",
         date: "2026-03-21 21:15",
         total: 45000,
         status: "Đang giao",
-        items: [
-            { name: "Cơm Tấm Sườn Nướng", quantity: 1, price: 45000 },
-        ],
+        items: [{ name: "Cơm Tấm Sườn Nướng", quantity: 1, price: 45000 }],
     },
 ];
 
@@ -60,7 +56,14 @@ function Orders() {
                 ) : (
                     <Stack spacing={3}>
                         {mockOrders.map((order) => (
-                            <Card key={order.id}>
+                            <Card
+                                key={order.id}
+                                sx={{
+                                    borderRadius: 4,
+                                    overflow: "hidden",
+                                    position: "relative",
+                                }}
+                            >
                                 <CardContent sx={{ p: 3 }}>
                                     <Stack
                                         direction={{ xs: "column", sm: "row" }}
@@ -102,27 +105,34 @@ function Orders() {
                                                 justifyContent="space-between"
                                             >
                                                 <Typography variant="body2">
-                                                    {item.name} x {item.quantity}
+                                                    {item.name} x{" "}
+                                                    {item.quantity}
                                                 </Typography>
                                                 <Typography
                                                     variant="body2"
                                                     fontWeight={600}
                                                 >
                                                     {(
-                                                        item.price * item.quantity
+                                                        item.price *
+                                                        item.quantity
                                                     ).toLocaleString("vi-VN")}
                                                     đ
                                                 </Typography>
                                             </Stack>
                                         ))}
                                     </Stack>
-                                    <Divider sx={{ mb: 2, borderStyle: "dashed" }} />
+                                    <Divider
+                                        sx={{ mb: 2, borderStyle: "dashed" }}
+                                    />
                                     <Stack
                                         direction="row"
                                         justifyContent="space-between"
                                         alignItems="center"
                                     >
-                                        <Typography variant="h6" fontWeight={700}>
+                                        <Typography
+                                            variant="h6"
+                                            fontWeight={700}
+                                        >
                                             Tổng cộng
                                         </Typography>
                                         <Typography
@@ -130,7 +140,10 @@ function Orders() {
                                             fontWeight={800}
                                             color="primary"
                                         >
-                                            {order.total.toLocaleString("vi-VN")}đ
+                                            {order.total.toLocaleString(
+                                                "vi-VN"
+                                            )}
+                                            đ
                                         </Typography>
                                     </Stack>
                                     <Box sx={{ mt: 2, textAlign: "right" }}>

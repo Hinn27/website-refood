@@ -30,7 +30,7 @@ import SectionLayout from "../components/layout/SectionLayout";
 import { useCart } from "../context/CartContext";
 import { useMeals } from "../context/useMeals";
 
-const categories = ["Tất cả", "Bún/Phở", "Cơm", "Bánh mì", "Cơm/Đồ ăn"];
+const categories = ["Tất cả", "Bún/Phở", "Cơm", "Bánh mì", "Đồ ăn khác"];
 
 function Menu() {
     const { addItem } = useCart();
@@ -43,7 +43,7 @@ function Menu() {
     if (error) {
         return (
             <SectionLayout variant="wide">
-                <Box sx={{ textAlign: 'center', py: 8 }}>
+                <Box sx={{ textAlign: "center", py: 8 }}>
                     <Typography variant="h5" color="error" gutterBottom>
                         Không thể tải danh sách món ăn
                     </Typography>
@@ -80,12 +80,9 @@ function Menu() {
     };
 
     const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
-    const paginatedMeals = loading 
-        ? [...Array(8)] 
-        : filteredMeals.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage
-        );
+    const paginatedMeals = loading
+        ? [...Array(8)]
+        : filteredMeals.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
     const handlePageChange = (event, value) => {
         setPage(value);
@@ -187,8 +184,12 @@ function Menu() {
 
             {/* Results count */}
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                {loading ? "Đang tải món ăn..." : (
-                    <>Tìm thấy <strong>{filteredMeals.length}</strong> món ăn</>
+                {loading ? (
+                    "Đang tải món ăn..."
+                ) : (
+                    <>
+                        Tìm thấy <strong>{filteredMeals.length}</strong> món ăn
+                    </>
                 )}
             </Typography>
 

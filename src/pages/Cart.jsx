@@ -139,7 +139,14 @@ function Cart() {
                     <Box sx={{ flex: 1 }}>
                         <Stack spacing={2}>
                             {items.map((item) => (
-                                <Card key={item._id}>
+                                <Card
+                                    key={item._id}
+                                    sx={{
+                                        borderRadius: 4,
+                                        overflow: "hidden",
+                                        position: "relative",
+                                    }}
+                                >
                                     <CardContent
                                         sx={{
                                             py: 2,
@@ -152,16 +159,24 @@ function Cart() {
                                             alignItems="center"
                                         >
                                             <Box
-                                                component="img"
-                                                src={item.image}
-                                                alt={item.name}
                                                 sx={{
                                                     width: 90,
                                                     height: 90,
-                                                    borderRadius: 2,
-                                                    objectFit: "cover",
+                                                    flexShrink: 0,
                                                 }}
-                                            />
+                                            >
+                                                <CardMediaSkeleton
+                                                    component="img"
+                                                    image={item.image}
+                                                    alt={item.name}
+                                                    sx={{
+                                                        aspectRatio: "16/10",
+                                                        objectFit: "cover",
+                                                        width: "100%",
+                                                        height: 90,
+                                                    }}
+                                                />
+                                            </Box>
                                             <Box sx={{ flex: 1 }}>
                                                 <Typography
                                                     variant="h6"

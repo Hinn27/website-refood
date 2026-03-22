@@ -106,7 +106,14 @@ function VolunteerSection() {
                 {/* Registration form */}
                 <Grid item xs={12} md={6}>
                     <AnimatedSection variant="fadeRight" delay={0.1}>
-                        <Card sx={CARD_FORM_SX}>
+                        <Card
+                            sx={{
+                                ...CARD_FORM_SX,
+                                borderRadius: 4,
+                                overflow: "hidden",
+                                position: "relative",
+                            }}
+                        >
                             <CardContent>
                                 <Typography
                                     variant="h5"
@@ -210,7 +217,14 @@ function VolunteerSection() {
                         <Stack spacing={3}>
                             {/* Benefits */}
                             {volunteerBenefits.map((benefit, index) => (
-                                <Card key={index}>
+                                <Card
+                                    key={index}
+                                    sx={{
+                                        borderRadius: 4,
+                                        overflow: "hidden",
+                                        position: "relative",
+                                    }}
+                                >
                                     <CardContent>
                                         <Stack
                                             direction="row"
@@ -241,7 +255,14 @@ function VolunteerSection() {
                             ))}
 
                             {/* Impact stats */}
-                            <Card sx={CARD_IMPACT_SX}>
+                            <Card
+                                sx={{
+                                    ...CARD_IMPACT_SX,
+                                    borderRadius: 4,
+                                    overflow: "hidden",
+                                    position: "relative",
+                                }}
+                            >
                                 <CardContent>
                                     <Typography
                                         variant="h6"

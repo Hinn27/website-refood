@@ -40,10 +40,11 @@ function Login() {
             setError("Vui lòng nhập đầy đủ email và mật khẩu");
             return;
         }
-        
+
         // Mock login logic
         const role = form.email.includes("admin") ? "admin" : "user";
-        const name = role === "admin" ? "Quản trị viên ReFood" : "Người dùng ReFood";
+        const name =
+            role === "admin" ? "Quản trị viên ReFood" : "Người dùng ReFood";
 
         login({
             id: role === "admin" ? "admin-1" : "user-1",
@@ -51,7 +52,7 @@ function Login() {
             email: form.email,
             role: role,
         });
-        
+
         // Quay về trang trước đó hoặc trang chủ
         const from = location.state?.from?.pathname || "/";
         navigate(from, { replace: true });
@@ -72,7 +73,14 @@ function Login() {
             }}
         >
             <AnimatedSection variant="scale" delay={0.1}>
-                <Card sx={{ p: { xs: 2, md: 4 } }}>
+                <Card
+                    sx={{
+                        p: { xs: 2, md: 4 },
+                        borderRadius: 4,
+                        overflow: "hidden",
+                        position: "relative",
+                    }}
+                >
                     <CardContent>
                         {/* Logo */}
                         <Stack alignItems="center" spacing={1} sx={{ mb: 4 }}>
@@ -173,7 +181,10 @@ function Login() {
                                 size="small"
                                 variant="outlined"
                                 onClick={() => {
-                                    setForm({ email: "user@refood.vn", password: "password" });
+                                    setForm({
+                                        email: "user@refood.vn",
+                                        password: "password",
+                                    });
                                 }}
                                 sx={{ flex: 1, fontSize: "0.7rem" }}
                             >
@@ -184,7 +195,10 @@ function Login() {
                                 variant="outlined"
                                 color="secondary"
                                 onClick={() => {
-                                    setForm({ email: "admin@refood.vn", password: "password" });
+                                    setForm({
+                                        email: "admin@refood.vn",
+                                        password: "password",
+                                    });
                                 }}
                                 sx={{ flex: 1, fontSize: "0.7rem" }}
                             >
