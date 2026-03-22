@@ -25,36 +25,53 @@ import AnimatedSection from "../common/AnimatedSection";
 import CardMediaSkeleton from "../common/CardMediaSkeleton";
 import SectionLayout from "../layout/SectionLayout";
 
-// Style constants để tránh tạo object mới mỗi lần render
+// Style constants
 const TOGGLE_GROUP_SX = {
     flexWrap: "wrap",
     gap: 1,
     justifyContent: "center",
     "& .MuiToggleButton-root": {
-        borderRadius: "24px !important",
-        border: "1px solid",
+        borderRadius: "20px !important",
+        border: "1.5px solid",
         borderColor: "divider",
         px: 2.5,
-        py: 0.8,
+        py: 0.75,
         textTransform: "none",
         fontWeight: 600,
+        fontSize: "0.875rem",
+        transition: "all 0.2s ease",
+        "&:hover": {
+            bgcolor: "action.hover",
+            borderColor: "primary.light",
+        },
         "&.Mui-selected": {
             bgcolor: "primary.main",
             color: "#fff",
             borderColor: "primary.main",
+            boxShadow: "0 4px 12px rgba(76, 175, 80, 0.3)",
             "&:hover": {
                 bgcolor: "primary.dark",
             },
         },
     },
 };
+
 const CARD_SX = {
     height: "100%",
     display: "flex",
     flexDirection: "column",
     position: "relative",
     overflow: "hidden",
+    borderRadius: 3,
+    bgcolor: "background.paper",
+    boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    "&:hover": {
+        transform: "translateY(-6px)",
+        boxShadow: "0 12px 28px rgba(0,0,0,0.15)",
+    },
 };
+
 const CHIP_TAG_SX = {
     position: "absolute",
     top: 12,
@@ -63,28 +80,26 @@ const CHIP_TAG_SX = {
     bgcolor: "primary.main",
     color: "#fff",
     fontWeight: 600,
-    "& .MuiChip-icon": { color: "#fff" },
+    fontSize: "0.75rem",
+    height: 26,
+    borderRadius: "8px",
+    boxShadow: "0 2px 8px rgba(76, 175, 80, 0.4)",
+    "& .MuiChip-icon": { color: "#fff", fontSize: 16 },
 };
-const CHIP_RATING_SX = {
-    position: "absolute",
-    top: 12,
-    right: 12,
-    zIndex: 2,
-    bgcolor: "rgba(0,0,0,0.7)",
-    color: "#FFD54F",
-    fontWeight: 700,
-    "& .MuiChip-icon": { color: "#FFD54F" },
-};
+
 const ICON_BUTTON_SX = {
     bgcolor: "primary.main",
     color: "#fff",
-    width: 44,
-    height: 44,
+    width: 42,
+    height: 42,
+    borderRadius: 2,
+    boxShadow: "0 4px 12px rgba(76, 175, 80, 0.35)",
     "&:hover": {
         bgcolor: "primary.dark",
-        transform: "scale(1.1)",
+        transform: "scale(1.08)",
+        boxShadow: "0 6px 16px rgba(76, 175, 80, 0.45)",
     },
-    transition: "transform 0.2s ease",
+    transition: "all 0.2s ease",
 };
 
 const categories = [
@@ -100,7 +115,6 @@ function MenuSection() {
     const { meals: allMeals, loading, error } = useMeals();
     const [activeCategory, setActiveCategory] = useState("all");
 
-    // Memo hóa callback để tránh tạo lại mỗi lần render (đặt trước mọi return)
     const handleAddToCart = useCallback(
         (meal) => {
             addItem({
@@ -117,7 +131,7 @@ function MenuSection() {
         return (
             <SectionLayout id="menu">
                 <Box sx={{ py: 8 }}>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={3}>
                         {[...Array(8)].map((_, index) => (
                             <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                                 <CardMediaSkeleton />
@@ -144,43 +158,60 @@ function MenuSection() {
         );
     }
 
-    // Hiển thị tất cả món, grid sẽ tự động chia 4 món 1 hàng nhờ lg=3
     const filteredMeals =
         activeCategory === "all"
             ? allMeals
             : allMeals.filter((m) => m.category === activeCategory);
-    const displayedMeals = filteredMeals;
 
     return (
         <SectionLayout
+            id="menu"
             variant="wide"
             bgcolor="background.default"
-            sx={{ py: { xs: 4, md: 6 } }}
+            sx={{ py: { xs: 6, md: 10 } }}
         >
             {/* Header */}
             <AnimatedSection variant="fadeUp">
-                <Stack
-                    direction="row"
-                    spacing={2}
-                    alignItems="center"
-                    sx={{ mb: 2 }}
-                >
-                    <RestaurantMenuIcon color="primary" sx={{ fontSize: 40 }} />
-                    <Box>
-                        <Typography variant="h3" fontWeight={700}>
+                <Box sx={{ textAlign: "center", mb: 5 }}>
+                    <Stack
+                        direction="row"
+                        spacing={1.5}
+                        alignItems="center"
+                        justifyContent="center"
+                        sx={{ mb: 1.5 }}
+                    >
+                        <RestaurantMenuIcon
+                            color="primary"
+                            sx={{ fontSize: 42 }}
+                        />
+                        <Typography
+                            variant="h3"
+                            fontWeight={800}
+                            sx={{
+                                background:
+                                    "linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)",
+                                backgroundClip: "text",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                            }}
+                        >
                             Thực Đơn
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            Khám phá các món ăn Việt Nam truyền thống — Phục vụ
-                            24/7, giao tận nơi cho cô chú lao động
-                        </Typography>
-                    </Box>
-                </Stack>
+                    </Stack>
+                    <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        sx={{ maxWidth: 600, mx: "auto", lineHeight: 1.7 }}
+                    >
+                        Khám phá các món ăn Việt Nam truyền thống — Phục vụ
+                        24/7, giao tận nơi cho cô chú lao động
+                    </Typography>
+                </Box>
             </AnimatedSection>
 
             {/* Category Filter */}
-            <AnimatedSection variant="fadeUp" delay={0.15}>
-                <Box sx={{ mb: 4, display: "flex", justifyContent: "center" }}>
+            <AnimatedSection variant="fadeUp" delay={0.1}>
+                <Box sx={{ mb: 5, display: "flex", justifyContent: "center" }}>
                     <ToggleButtonGroup
                         value={activeCategory}
                         exclusive
@@ -198,43 +229,80 @@ function MenuSection() {
             </AnimatedSection>
 
             {/* Meals grid */}
-            <AnimatedSection variant="fadeUp" delay={0.25}>
+            <AnimatedSection variant="fadeUp" delay={0.2}>
                 <Grid container spacing={3} justifyContent="center">
-                    {displayedMeals.map((meal) => (
+                    {filteredMeals.map((meal) => (
                         <Grid item key={meal._id} xs={12} sm={6} md={4} lg={3}>
                             <Card sx={CARD_SX}>
-                                <Chip
-                                    label={meal.tag}
-                                    size="small"
-                                    icon={<LocalFireDepartmentIcon />}
-                                    sx={CHIP_TAG_SX}
-                                />
+                                {meal.tag && (
+                                    <Chip
+                                        label={meal.tag}
+                                        size="small"
+                                        icon={<LocalFireDepartmentIcon />}
+                                        sx={CHIP_TAG_SX}
+                                    />
+                                )}
                                 <CardActionArea
                                     component={RouterLink}
                                     to={`/product/${meal._id}`}
                                 >
-                                    <CardMediaSkeleton
-                                        component="img"
-                                        image={meal.image}
-                                        alt={meal.name}
-                                        sx={{
-                                            aspectRatio: "16/10",
-                                            objectFit: "cover",
-                                            width: "100%",
-                                            maxHeight: 180,
-                                        }}
-                                    />
+                                    <Box sx={{ position: "relative" }}>
+                                        <CardMediaSkeleton
+                                            component="img"
+                                            image={meal.image}
+                                            alt={meal.name}
+                                            sx={{
+                                                aspectRatio: "4/3",
+                                                objectFit: "cover",
+                                                width: "100%",
+                                            }}
+                                        />
+                                        {/* Rating badge */}
+                                        <Stack
+                                            direction="row"
+                                            spacing={0.5}
+                                            alignItems="center"
+                                            sx={{
+                                                position: "absolute",
+                                                bottom: 10,
+                                                right: 10,
+                                                bgcolor: "rgba(0,0,0,0.75)",
+                                                color: "#fff",
+                                                px: 1,
+                                                py: 0.5,
+                                                borderRadius: 1.5,
+                                            }}
+                                        >
+                                            <StarIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: "#FFD700",
+                                                }}
+                                            />
+                                            <Typography
+                                                variant="caption"
+                                                fontWeight={700}
+                                            >
+                                                {meal.rating}
+                                            </Typography>
+                                        </Stack>
+                                    </Box>
                                 </CardActionArea>
-                                <CardContent sx={{ flexGrow: 1, pb: 1.5 }}>
+
+                                <CardContent
+                                    sx={{ flexGrow: 1, p: 2, pt: 2.5 }}
+                                >
                                     <Typography
                                         variant="subtitle1"
                                         fontWeight={700}
-                                        gutterBottom
                                         component={RouterLink}
                                         to={`/product/${meal._id}`}
                                         sx={{
                                             textDecoration: "none",
                                             color: "text.primary",
+                                            display: "block",
+                                            mb: 0.75,
+                                            transition: "color 0.2s",
                                             "&:hover": {
                                                 color: "primary.main",
                                             },
@@ -242,51 +310,50 @@ function MenuSection() {
                                     >
                                         {meal.name}
                                     </Typography>
+
                                     <Typography
                                         variant="body2"
                                         color="text.secondary"
                                         sx={{
-                                            mb: 1.5,
+                                            mb: 2,
                                             display: "-webkit-box",
                                             WebkitLineClamp: 2,
                                             WebkitBoxOrient: "vertical",
                                             overflow: "hidden",
+                                            lineHeight: 1.5,
+                                            minHeight: 42,
                                         }}
                                     >
                                         {meal.desc}
                                     </Typography>
+
+                                    {/* Info row */}
                                     <Stack
                                         direction="row"
-                                        spacing={1}
+                                        spacing={1.5}
                                         alignItems="center"
-                                        sx={{ mb: 1 }}
+                                        sx={{ mb: 2 }}
                                     >
-                                        <StarIcon
-                                            sx={{
-                                                fontSize: 16,
-                                                color: "#FFB400",
-                                            }}
-                                        />
-                                        <Typography
-                                            variant="caption"
-                                            fontWeight={600}
-                                        >
-                                            {meal.rating}
-                                        </Typography>
                                         <Typography
                                             variant="caption"
                                             color="text.secondary"
+                                            sx={{
+                                                bgcolor: "action.hover",
+                                                px: 1,
+                                                py: 0.3,
+                                                borderRadius: 1,
+                                            }}
                                         >
-                                            • {meal.origin}
+                                            {meal.origin}
                                         </Typography>
                                         <Stack
                                             direction="row"
-                                            spacing={0.3}
+                                            spacing={0.5}
                                             alignItems="center"
                                         >
                                             <AccessTimeIcon
                                                 sx={{
-                                                    fontSize: 13,
+                                                    fontSize: 14,
                                                     color: "text.secondary",
                                                 }}
                                             />
@@ -298,6 +365,8 @@ function MenuSection() {
                                             </Typography>
                                         </Stack>
                                     </Stack>
+
+                                    {/* Price & Cart */}
                                     <Stack
                                         direction="row"
                                         justifyContent="space-between"
@@ -305,7 +374,7 @@ function MenuSection() {
                                     >
                                         <Typography
                                             variant="h6"
-                                            color="primary"
+                                            color="primary.main"
                                             fontWeight={800}
                                         >
                                             {meal.price.toLocaleString("vi-VN")}
@@ -313,13 +382,14 @@ function MenuSection() {
                                         </Typography>
                                         <Tooltip title="Thêm vào giỏ hàng">
                                             <IconButton
-                                                color="primary"
                                                 onClick={() =>
                                                     handleAddToCart(meal)
                                                 }
                                                 sx={ICON_BUTTON_SX}
                                             >
-                                                <AddShoppingCartIcon fontSize="small" />
+                                                <AddShoppingCartIcon
+                                                    sx={{ fontSize: 20 }}
+                                                />
                                             </IconButton>
                                         </Tooltip>
                                     </Stack>
