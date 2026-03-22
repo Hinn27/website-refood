@@ -1,8 +1,14 @@
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import { Alert, IconButton, Snackbar } from "@mui/material";
-import PropTypes from "prop-types";
+import { useMemo } from "react";
 import { useCart } from "../../context/CartContext";
+import { memo } from "react";
+
+const alertSx = {
+    background: "linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)",
+    fontWeight: 600,
+};
 
 /**
  * CartSnackbar — Hiển thị thông báo khi thêm sản phẩm vào giỏ hàng.
@@ -11,40 +17,40 @@ import { useCart } from "../../context/CartContext";
  */
 function CartSnackbar() {
     const { snackbar, closeSnackbar } = useCart();
+    const show = snackbar.open && Boolean(snackbar.message);
+
+    // Memo hóa action để tránh tạo lại mỗi lần render
+    const action = useMemo(
+        () => (
+            <IconButton size="small" color="inherit" onClick={closeSnackbar}>
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        ),
+        [closeSnackbar]
+    );
 
     return (
         <Snackbar
-            open={snackbar.open}
+            open={show}
             autoHideDuration={2500}
             onClose={closeSnackbar}
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         >
-            <Alert
-                onClose={closeSnackbar}
-                severity="success"
-                variant="filled"
-                icon={<AddShoppingCartIcon />}
-                action={
-                    <IconButton
-                        size="small"
-                        color="inherit"
-                        onClick={closeSnackbar}
-                    >
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                }
-                sx={{
-                    background:
-                        "linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%)",
-                    fontWeight: 600,
-                }}
-            >
-                {snackbar.message}
-            </Alert>
+            {show && (
+                <Alert
+                    onClose={closeSnackbar}
+                    severity="success"
+                    variant="filled"
+                    icon={<AddShoppingCartIcon />}
+                    action={action}
+                    sx={alertSx}
+                    role="status"
+                >
+                    {snackbar.message}
+                </Alert>
+            )}
         </Snackbar>
     );
 }
 
-CartSnackbar.propTypes = {};
-
-export default CartSnackbar;
+export default memo(CartSnackbar);
