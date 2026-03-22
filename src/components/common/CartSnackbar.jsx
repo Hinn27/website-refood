@@ -1,8 +1,14 @@
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import { Alert, IconButton, Snackbar } from "@mui/material";
+import PropTypes from "prop-types";
 import { useCart } from "../../context/CartContext";
 
+/**
+ * CartSnackbar — Hiển thị thông báo khi thêm sản phẩm vào giỏ hàng.
+ * Sử dụng context useCart để lấy trạng thái và hàm đóng.
+ * Nếu muốn mở rộng, có thể truyền thêm props cho duration hoặc anchorOrigin.
+ */
 function CartSnackbar() {
     const { snackbar, closeSnackbar } = useCart();
 
@@ -38,5 +44,7 @@ function CartSnackbar() {
         </Snackbar>
     );
 }
+
+CartSnackbar.propTypes = {};
 
 export default CartSnackbar;
