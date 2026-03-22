@@ -1,0 +1,12 @@
+# <type>(<scope>): <subject>
+# |<-- 50 chars max -->|
+
+# <body>
+# --------------------------------------------------------------
+# |<-- 72 chars max for wrapping                                 |
+# --------------------------------------------------------------
+
+# <footer>
+
+# --- Types: feat, fix, docs, style, refactor, perf, test, chore, ci ---
+# --- Example: feat(auth): add OAuth2 login with Google ---
