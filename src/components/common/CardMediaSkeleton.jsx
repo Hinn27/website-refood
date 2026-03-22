@@ -1,12 +1,13 @@
 import { CardMedia, Skeleton } from "@mui/material";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 /**
  * CardMediaSkeleton — CardMedia with a Skeleton placeholder while loading.
  *
  * Props: same as CardMedia + `skeletonHeight` (optional).
  */
-function CardMediaSkeleton({ sx, ...props }) {
+function CardMediaSkeleton({ sx, skeletonHeight, ...props }) {
     const [loaded, setLoaded] = useState(false);
 
     return (
@@ -16,8 +17,9 @@ function CardMediaSkeleton({ sx, ...props }) {
                     variant="rectangular"
                     animation="wave"
                     sx={{
-                        aspectRatio: sx?.aspectRatio || "16/10",
                         width: "100%",
+                        height: skeletonHeight,
+                        aspectRatio: skeletonHeight ? undefined : sx?.aspectRatio || "16/10",
                     }}
                 />
             )}
@@ -32,5 +34,14 @@ function CardMediaSkeleton({ sx, ...props }) {
         </>
     );
 }
+
+CardMediaSkeleton.propTypes = {
+    sx: PropTypes.object,
+    skeletonHeight: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
+    // cac prop khac se duoc Media nhan, nen khong can khai bao them
+};
 
 export default CardMediaSkeleton;
