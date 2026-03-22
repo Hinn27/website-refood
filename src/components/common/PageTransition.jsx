@@ -4,7 +4,13 @@ import { useLocation } from "react-router-dom";
 
 const MotionBox = motion.create(Box);
 
-const pageVariants = {
+/**
+ * PageTransition — Bọc quanh route/page để tạo hiệu ứng chuyển trang mượt mà.
+ * Sử dụng AnimatePresence + MotionBox (MUI + Framer Motion).
+ * Không nhận props custom, giữ API đơn giản.
+ */
+
+const PAGE_VARIANTS = {
     initial: {
         opacity: 0,
         y: 20,
@@ -19,7 +25,7 @@ const pageVariants = {
     },
 };
 
-const pageTransition = {
+const PAGE_TRANSITION = {
     duration: 0.35,
     ease: [0.25, 0.1, 0.25, 1],
 };
@@ -34,8 +40,8 @@ function PageTransition({ children }) {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                variants={pageVariants}
-                transition={pageTransition}
+                variants={PAGE_VARIANTS}
+                transition={PAGE_TRANSITION}
                 sx={{ width: "100%" }}
             >
                 {children}
