@@ -20,7 +20,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useMeals } from "../../context/useMeals";
@@ -28,6 +28,68 @@ import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
 import { staggerContainer, staggerItem } from "../../utils/animations";
 import SectionLayout from "../layout/SectionLayout";
 import CardMediaSkeleton from "../common/CardMediaSkeleton";
+
+// Style constants để tránh tạo object mới mỗi lần render
+const TOGGLE_GROUP_SX = {
+    flexWrap: "wrap",
+    gap: 1,
+    justifyContent: "center",
+    "& .MuiToggleButton-root": {
+        borderRadius: "24px !important",
+        border: "1px solid",
+        borderColor: "divider",
+        px: 2.5,
+        py: 0.8,
+        textTransform: "none",
+        fontWeight: 600,
+        "&.Mui-selected": {
+            bgcolor: "primary.main",
+            color: "#fff",
+            borderColor: "primary.main",
+            "&:hover": {
+                bgcolor: "primary.dark",
+            },
+        },
+    },
+};
+const CARD_SX = {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    overflow: "hidden",
+};
+const CHIP_TAG_SX = {
+    position: "absolute",
+    top: 12,
+    left: 12,
+    zIndex: 2,
+    bgcolor: "primary.main",
+    color: "#fff",
+    fontWeight: 600,
+    "& .MuiChip-icon": { color: "#fff" },
+};
+const CHIP_RATING_SX = {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 2,
+    bgcolor: "rgba(0,0,0,0.7)",
+    color: "#FFD54F",
+    fontWeight: 700,
+    "& .MuiChip-icon": { color: "#FFD54F" },
+};
+const ICON_BUTTON_SX = {
+    bgcolor: "primary.main",
+    color: "#fff",
+    width: 44,
+    height: 44,
+    "&:hover": {
+        bgcolor: "primary.dark",
+        transform: "scale(1.1)",
+    },
+    transition: "transform 0.2s ease",
+};
 
 const categories = [
     { label: "Tất cả", value: "all" },
@@ -43,6 +105,19 @@ function MenuSection() {
     const [activeCategory, setActiveCategory] = useState("all");
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
+
+    // Memo hóa callback để tránh tạo lại mỗi lần render (đặt trước mọi return)
+    const handleAddToCart = useCallback(
+        (meal) => {
+            addItem({
+                _id: meal._id,
+                name: meal.name,
+                price: meal.price,
+                image: meal.image,
+            });
+        },
+        [addItem]
+    );
 
     if (loading) {
         return (
@@ -79,15 +154,6 @@ function MenuSection() {
         activeCategory === "all"
             ? allMeals
             : allMeals.filter((m) => m.category === activeCategory);
-
-    const handleAddToCart = (meal) => {
-        addItem({
-            _id: meal._id,
-            name: meal.name,
-            price: meal.price,
-            image: meal.image,
-        });
-    };
 
     return (
         <SectionLayout
@@ -166,28 +232,7 @@ function MenuSection() {
                         exclusive
                         onChange={(e, val) => val && setActiveCategory(val)}
                         size="small"
-                        sx={{
-                            flexWrap: "wrap",
-                            gap: 1,
-                            justifyContent: "center",
-                            "& .MuiToggleButton-root": {
-                                borderRadius: "24px !important",
-                                border: "1px solid",
-                                borderColor: "divider",
-                                px: 2.5,
-                                py: 0.8,
-                                textTransform: "none",
-                                fontWeight: 600,
-                                "&.Mui-selected": {
-                                    bgcolor: "primary.main",
-                                    color: "#fff",
-                                    borderColor: "primary.main",
-                                    "&:hover": {
-                                        bgcolor: "primary.dark",
-                                    },
-                                },
-                            },
-                        }}
+                        sx={TOGGLE_GROUP_SX}
                     >
                         {categories.map((cat) => (
                             <ToggleButton key={cat.value} value={cat.value}>
@@ -208,58 +253,24 @@ function MenuSection() {
                 <Grid container spacing={3}>
                     {filteredMeals.map((meal) => (
                         <Grid
-                            size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                            xs={12} sm={6} md={4} lg={3}
                             key={meal._id}
                         >
                             <MotionBox variants={staggerItem}>
-                                <Card
-                                    sx={{
-                                        height: "100%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        position: "relative",
-                                        overflow: "hidden",
-                                    }}
-                                >
+                                <Card sx={CARD_SX}>
                                     {/* Tag */}
                                     <Chip
                                         label={meal.tag}
                                         size="small"
                                         icon={<LocalFireDepartmentIcon />}
-                                        sx={{
-                                            position: "absolute",
-                                            top: 12,
-                                            left: 12,
-                                            zIndex: 2,
-                                            bgcolor: "primary.main",
-                                            color: "#fff",
-                                            fontWeight: 600,
-                                            "& .MuiChip-icon": {
-                                                color: "#fff",
-                                            },
-                                        }}
+                                        sx={CHIP_TAG_SX}
                                     />
                                     {/* Rating */}
                                     <Chip
-                                        icon={
-                                            <StarIcon
-                                                sx={{ fontSize: "16px" }}
-                                            />
-                                        }
+                                        icon={<StarIcon sx={{ fontSize: "16px" }} />}
                                         label={meal.rating}
                                         size="small"
-                                        sx={{
-                                            position: "absolute",
-                                            top: 12,
-                                            right: 12,
-                                            zIndex: 2,
-                                            bgcolor: "rgba(0,0,0,0.7)",
-                                            color: "#FFD54F",
-                                            fontWeight: 700,
-                                            "& .MuiChip-icon": {
-                                                color: "#FFD54F",
-                                            },
-                                        }}
+                                        sx={CHIP_RATING_SX}
                                     />
                                     <CardActionArea
                                         component={RouterLink}
@@ -339,20 +350,7 @@ function MenuSection() {
                                                     onClick={() =>
                                                         handleAddToCart(meal)
                                                     }
-                                                    sx={{
-                                                        bgcolor: "primary.main",
-                                                        color: "#fff",
-                                                        width: 44,
-                                                        height: 44,
-                                                        "&:hover": {
-                                                            bgcolor:
-                                                                "primary.dark",
-                                                            transform:
-                                                                "scale(1.1)",
-                                                        },
-                                                        transition:
-                                                            "transform 0.2s ease",
-                                                    }}
+                                                    sx={ICON_BUTTON_SX}
                                                 >
                                                     <AddShoppingCartIcon
                                                         sx={{ fontSize: 20 }}
