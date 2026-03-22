@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { animationVariants } from "../../utils/animations";
+import PropTypes from "prop-types";
 
 const MotionBox = motion.create(Box);
 
@@ -41,6 +42,16 @@ function AnimatedSection({
         </MotionBox>
     );
 }
+
+AnimatedSection.propTypes = {
+    children: PropTypes.node.isRequired,
+    variant: PropTypes.string,
+    delay: PropTypes.number,
+    duration: PropTypes.number,
+    once: PropTypes.bool,
+    threshold: PropTypes.number,
+    sx: PropTypes.object,
+};
 
 export { MotionBox };
 export default AnimatedSection;
