@@ -22,7 +22,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import AnimatedSection, { MotionBox } from "../common/AnimatedSection";
@@ -74,30 +74,59 @@ const zeroDongRestaurants = [
     },
 ];
 
+// Style constants để tránh tạo object mới mỗi lần render
+const CARD_SX = {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    overflow: "hidden",
+};
+const CHIP_TAG_SX = {
+    position: "absolute",
+    top: 12,
+    left: 12,
+    zIndex: 2,
+    bgcolor: "primary.main",
+    color: "#fff",
+    fontWeight: 600,
+    "& .MuiChip-icon": { color: "#fff" },
+};
+const ICON_BUTTON_SX = {
+    bgcolor: "primary.main",
+    color: "#fff",
+    width: 48,
+    height: 48,
+    "&:hover": { bgcolor: "primary.dark" },
+};
+
 function QuanAn0dSection() {
     const { addItem } = useCart();
     const { meals, loading, error } = useMeals();
     const gridRef = useRef(null);
     const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
 
-    if (loading) return null;
+    // Memo hóa callback để tránh tạo lại mỗi lần render (đặt trước mọi return)
+    const handleAddToCart = useCallback(
+        (meal) => {
+            addItem({
+                _id: meal._id,
+                name: meal.name,
+                price: 0, // Giá 0đ khi thêm vào giỏ hàng
+                image: meal.image,
+            });
+        },
+        [addItem]
+    );
 
-    if (error) return null; // Tránh hiển thị lỗi trùng lặp với MenuSection ở ngay trên
+    if (loading) return null;
+    if (error) return null;
 
     // Use top 6 meals for 0đ section
-    const quanAn0dMeals = meals.slice(0, 6).map(meal => ({
+    const quanAn0dMeals = meals.slice(0, 6).map((meal) => ({
         ...meal,
-        price: 0 // Đổi giá thành 0đ như yêu cầu
+        price: 0, // Đổi giá thành 0đ như yêu cầu
     }));
-
-    const handleAddToCart = (meal) => {
-        addItem({
-            _id: meal._id,
-            name: meal.name,
-            price: 0, // Giá 0đ khi thêm vào giỏ hàng
-            image: meal.image,
-        });
-    };
 
     return (
         <SectionLayout id="quan-an-0d" bgcolor="background.default">
@@ -158,34 +187,15 @@ function QuanAn0dSection() {
             >
                 <Grid container spacing={3}>
                     {quanAn0dMeals.map((meal) => (
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={meal._id}>
+                        <Grid xs={12} sm={6} md={4} key={meal._id}>
                             <MotionBox variants={staggerItem}>
-                                <Card
-                                    sx={{
-                                        height: "100%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        position: "relative",
-                                        overflow: "hidden",
-                                    }}
-                                >
+                                <Card sx={CARD_SX}>
                                     {/* Tag */}
                                     <Chip
                                         label={meal.tag}
                                         size="small"
                                         icon={<LocalFireDepartmentIcon />}
-                                        sx={{
-                                            position: "absolute",
-                                            top: 12,
-                                            left: 12,
-                                            zIndex: 2,
-                                            bgcolor: "primary.main",
-                                            color: "#fff",
-                                            fontWeight: 600,
-                                            "& .MuiChip-icon": {
-                                                color: "#fff",
-                                            },
-                                        }}
+                                        sx={CHIP_TAG_SX}
                                     />
                                     <CardActionArea
                                         component={RouterLink}
@@ -266,16 +276,7 @@ function QuanAn0dSection() {
                                                     onClick={() =>
                                                         handleAddToCart(meal)
                                                     }
-                                                    sx={{
-                                                        bgcolor: "primary.main",
-                                                        color: "#fff",
-                                                        width: 48,
-                                                        height: 48,
-                                                        "&:hover": {
-                                                            bgcolor:
-                                                                "primary.dark",
-                                                        },
-                                                    }}
+                                                    sx={ICON_BUTTON_SX}
                                                 >
                                                     <AddShoppingCartIcon />
                                                 </IconButton>
